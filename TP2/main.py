@@ -1,4 +1,9 @@
 import csv
+from Object import Object
+from FiniteStateMachine import Automate
+from OrderManager import OrderManager
+
+
 
 def read_file(file_name = 'inventaire.txt'):
 	
@@ -11,10 +16,7 @@ def read_file(file_name = 'inventaire.txt'):
 		print("Le ficher est lu!")
 	except Exception as e:
 		print("Erreur de lecture du fichier! Le fichier '" + file_name + "' ne peut pas être lu.")
-		return False, False
 
-
-	return list_vertices, list_arcs
 
 
 

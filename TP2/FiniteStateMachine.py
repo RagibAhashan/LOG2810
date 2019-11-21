@@ -9,9 +9,6 @@ class Automate:
 
 
 
-
-
-
     def run(self):
         pass
     
