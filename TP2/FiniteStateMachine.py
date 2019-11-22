@@ -27,31 +27,12 @@ class StateMachine:
 
 
     def run(self):
-
-        # msg = ''
-        # current_state = self.initial_state
-        
-        # while(True):
-		
-        #     x = get_input("Search: " + msg)
-        #     if x == False:
-        #         break
-        #     if x == '':
-        #         msg = msg[0 : len(msg)-1]
-                
-        #     for item in self.all_states:
-		#         item.printItem()
-            
-            
-        #     for i in range(os.get_terminal_size().lines - len(self.all_states) - 3):
-        #         print('')
-        #     print("Press Enter to exit...")
-        #     msg += x
-
-
-
-        
         pass
+
+
+    def transition_state(self):
+        pass
+        
 
     def stop(self):
         pass

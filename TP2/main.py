@@ -2,6 +2,7 @@ import csv
 from Object import Object
 from FiniteStateMachine import StateMachine
 from OrderManager import OrderManager
+from Entropot import Entrepot
 import numpy as np
 import msvcrt
 import os
@@ -55,29 +56,32 @@ def main():
 	initial_state = []
 	terminal_states = []
 
-
-	# automate = StateMachine(all_states, input_state, transition_function, initial_state, terminal_states)
+	
 	msg = ''
+
+	entrepot = Entrepot(items_store)
+	print(np.array(entrepot.getItems()))
+	print(entrepot.checkItem(items_store[0]))
 	
 
 
-	while(True):
+	# while(True):
 
-		for item in items_store:
-			item.printItem()
+	# 	for item in items_store:
+	# 		item.printItem()
 		
-		for i in range(os.get_terminal_size().lines - len(items_store) - 3):
-			print('')
+	# 	for i in range(os.get_terminal_size().lines - len(items_store) - 3):
+	# 		print('')
 		
-		print("Press Enter to exit...")
-		inp = get_input("Search: " + msg)
-		if inp == False:
-			break
-		if inp == '':
-			msg = msg[0:len(msg)-1]
+	# 	print("Press Enter to exit...")
+	# 	inp = get_input("Search: " + msg)
 		
+	# 	if inp == False:
+	# 		break
+	# 	if inp == '':
+	# 		msg = msg[0:len(msg)-1]
 		
-		msg += inp
+	# 	msg += inp
 
 
 
