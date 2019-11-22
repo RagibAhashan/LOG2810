@@ -1,10 +1,11 @@
 class State:
-    def __init__(self, state_name = 'unknown', inputs = 'unknown', outputs = 'unknown'):
+    def __init__(self, state_name = 'unknown', inputs = 'unknown', output = 'unknown', terminal = False):
         self.state_name = state_name
-        self.inputs = inputs
-        self.outputs = outputs
+        self.output     = output
+        self.inputs     = inputs
+        self.terminal   = terminal
 
     def printState(self):
-        print("Name: " + self.state_name)
-        print("Inputs: " + self.inputs)
-        print("Ouputs: " + self.outputs)
+        print("Name: "   + self.state_name)
+        print("Inputs: " +     self.inputs)
+        print("Ouput: "  +     self.output)
