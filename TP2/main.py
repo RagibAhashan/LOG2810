@@ -63,12 +63,6 @@ def main():
 
 	while(True):
 
-		inp = get_input("Search: " + msg)
-		if inp == False:
-			break
-		if inp == '':
-			msg = msg[0:len(msg)-1]
-
 		for item in items_store:
 			item.printItem()
 		
@@ -76,6 +70,13 @@ def main():
 			print('')
 		
 		print("Press Enter to exit...")
+		inp = get_input("Search: " + msg)
+		if inp == False:
+			break
+		if inp == '':
+			msg = msg[0:len(msg)-1]
+		
+		
 		msg += inp
 
 
