@@ -2,7 +2,7 @@ import csv
 from Object import Object
 from FiniteStateMachine import StateMachine
 from OrderManager import OrderManager
-from Entropot import Entrepot
+from Entrepot import Entrepot
 import numpy as np
 import msvcrt
 import os
@@ -57,31 +57,52 @@ def main():
 	terminal_states = []
 
 	
-	msg = ''
+
+	
+	name = ''
 
 	entrepot = Entrepot(items_store)
-	print(np.array(entrepot.getItems()))
-	print(entrepot.checkItem(items_store[0]))
+	print("Printing original items")
+	print_items(entrepot.get_items_dynamic())
+	ans = entrepot.search_item_name("")
+	print(ans)
+
+	updated_list = entrepot.update_dynamic_list(ans)
+	print_items(updated_list)
+
+
+
+
+
+
+
+
+	print("\n")
+
 	
 
 
-	# while(True):
+	while(True):
 
-	# 	for item in items_store:
-	# 		item.printItem()
+		for item in updated_list:
+			item.printItem()
 		
-	# 	for i in range(os.get_terminal_size().lines - len(items_store) - 3):
-	# 		print('')
+		for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
+			print('')
 		
-	# 	print("Press Enter to exit...")
-	# 	inp = get_input("Search: " + msg)
+		print("Press Enter to exit...")
+		inp = get_input("Search item by name: " + name)
 		
-	# 	if inp == False:
-	# 		break
-	# 	if inp == '':
-	# 		msg = msg[0:len(msg)-1]
+		if inp == False:
+			break
+		if inp == '':
+			name = name[0:len(name)-1]
 		
-	# 	msg += inp
+		name += inp
+		list_names_found = entrepot.search_item_name(name)
+		updated_list = entrepot.update_dynamic_list(list_names_found)
+		
+
 
 
 

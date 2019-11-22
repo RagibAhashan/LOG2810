@@ -1,14 +1,19 @@
 class Entrepot:
     def __init__(self, items_list):
         self._items_list   = items_list          # Constant. DO NOT CHANGE IT. IT'S PRIVATE ATTIBUTE.
-        self._dynamic_list = self.items_list
+        self._dynamic_list = items_list[:]
+        
     
     def getItems(self):
-        return self.items_list
+        return self._items_list
+
+    def get_items_dynamic(self):
+        return self._dynamic_list
     
-    def checkItem(self, item):
-        if item in self._dynamic_list:
-            return True
+    def checkItem(self, search_item):
+        for item in self._dynamic_list:
+            if item.id_code == search_item.id_code:
+                return True
         return False
         
     def find_item_by_name(self, name):
@@ -33,15 +38,16 @@ class Entrepot:
 
     def search_item_name(self, name):
         list_search_hits = []
-        prelimenary_search = self.find_item_by_name(name)
-        if prelimenary_search != False:
-            return prelimenary_search
-        
         for item in self._dynamic_list:
-            if item.name == name:
-                list_search_hits = [item]
-                return list_search_hits
-            elif name.find(item.name) == 0:
+            if item.name.find(name) == 0:
                 list_search_hits.append(item.name)   
-
         return list_search_hits
+    
+    def update_dynamic_list(self, list_hits_names):
+        updated_list = []
+        for i in range(len(self._items_list)):
+            if self._items_list[i].name in list_hits_names:
+                updated_list.append(self._items_list[i])
+
+        return updated_list
+        
