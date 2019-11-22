@@ -7,8 +7,6 @@ import msvcrt
 import os
 import platform
 
-print(platform.system())
-
 
 # WORKS
 def read_file(file_name = 'inventaire.txt'):
@@ -58,25 +56,30 @@ def main():
 	terminal_states = []
 
 
-	automate = StateMachine(all_states, input_state, transition_function, initial_state, terminal_states)
-	ts = os.get_terminal_size().lines
-	print(os.get_terminal_size().lines)
+	# automate = StateMachine(all_states, input_state, transition_function, initial_state, terminal_states)
 	msg = ''
 	
+
+
 	while(True):
-		
-		x = get_input("Message: " + msg)
-		if x == False:
+
+		inp = get_input("Search: " + msg)
+		if inp == False:
 			break
-		if x == '':
-			msg = msg[0 : len(msg)-1]
-			
-	
-		print_items(items_store)
+		if inp == '':
+			msg = msg[0:len(msg)-1]
+
+		for item in items_store:
+			item.printItem()
+		
 		for i in range(os.get_terminal_size().lines - len(items_store) - 3):
 			print('')
+		
 		print("Press Enter to exit...")
-		msg += x
+		msg += inp
+
+
+
 
 
 
