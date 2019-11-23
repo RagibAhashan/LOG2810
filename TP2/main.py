@@ -5,7 +5,7 @@ from State import State
 from FiniteStateMachine import StateMachine
 import csv
 import numpy as np
-import msvcrt
+# import msvcrt
 import os
 import platform
 
@@ -49,6 +49,7 @@ def print_items(items):
 
 def main():
 	items_store = read_file()
+	print_items(items_store)
 
 	
 	name = ''

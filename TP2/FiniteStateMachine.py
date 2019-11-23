@@ -1,6 +1,6 @@
 from State import State
 from Object import Object
-import msvcrt
+# import msvcrt
 import os
 import platform
 
@@ -8,7 +8,8 @@ acceptable_chars = [ chr(i+97) for i in range(26)]
 for i in range(10):
     acceptable_chars.append(str(i))
 
-
+if platform.system() == 'Windows':
+    import msvcrt
 
 
 def get_input(message = ''):
@@ -23,7 +24,7 @@ def get_input(message = ''):
 			return ''
 		return ans[2]
 	else:
-		return input(message + '\n')
+		return input(message )
 
 
 
@@ -122,9 +123,15 @@ class StateMachine:
             item.printItem()
         
 
-        for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
+        if platform.system() == "Windows":
+            correction_spaces = 3
+        else:
+            correction_spaces = 2
+        
+        for i in range(os.get_terminal_size().lines - len(updated_list) - correction_spaces):
             print("")
         
+
         print("Press ENTER to confirm your search...")
 
         inp = get_input("Search item by name: " + name)
@@ -140,7 +147,7 @@ class StateMachine:
             
             name += inp
         else:
-            name = inp
+            name += inp
         
         list_names_found = self.entrepot_data.search_item_by_name(name)
         updated_list     = self.entrepot_data.update_dynamic_list(list_names_found)
