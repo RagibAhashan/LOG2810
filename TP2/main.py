@@ -1,8 +1,12 @@
-import csv
 from Object import Object
-from FiniteStateMachine import StateMachine
 from OrderManager import OrderManager
 from Entrepot import Entrepot
+from State import State
+#from FiniteStateMachine import StateMachine
+from FiniteStateMachine import StateMachine
+
+
+import csv
 import numpy as np
 import msvcrt
 import os
@@ -50,30 +54,22 @@ def print_items(items):
 
 def main():
 	items_store = read_file()
-	all_states  = []
-	input_state = []
-	transition_function = []
-	initial_state = []
-	terminal_states = []
-
-	
 
 	
 	name = ''
 
 	entrepot = Entrepot(items_store)
-	print("Printing original items")
-	print_items(entrepot.get_items_dynamic())
-	ans = entrepot.search_item_name("")
-	print(ans)
+	# ans = entrepot.search_item_by_name("")
+	
 
-	updated_list = entrepot.update_dynamic_list(ans)
-	print_items(updated_list)
+	# updated_list = entrepot.update_dynamic_list(ans)
+	
 
-
+	state_machine = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
 
 
-
+	#print(state_machine.transition_state())
+	state_machine.run()
 
 
 
@@ -82,25 +78,30 @@ def main():
 	
 
 
-	while(True):
+	# while(True):
 
-		for item in updated_list:
-			item.printItem()
+	# 	for item in updated_list:
+	# 		item.printItem()
 		
-		for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
-			print('')
+	# 	for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
+	# 		print('')
 		
-		print("Press Enter to exit...")
-		inp = get_input("Search item by name: " + name)
+	# 	print("Press Enter to exit...")
+	# 	inp = get_input("Search item by name: " + name)
 		
-		if inp == False:
-			break
-		if inp == '':
-			name = name[0:len(name)-1]
+	# 	if inp == False:
+	# 		break
 		
-		name += inp
-		list_names_found = entrepot.search_item_name(name)
-		updated_list = entrepot.update_dynamic_list(list_names_found)
+	# 	if platform.system() == "Windows":
+	# 		if inp == '':
+	# 			name = name[0:len(name)-1]
+		
+	# 		name += inp
+	# 	else:
+	# 		name = inp
+		
+	# 	list_names_found = entrepot.search_item_by_name(name)
+	# 	updated_list 	 = entrepot.update_dynamic_list(list_names_found)
 		
 
 

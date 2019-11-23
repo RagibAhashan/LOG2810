@@ -36,7 +36,7 @@ class Entrepot:
         return list_type
 
 
-    def search_item_name(self, name):
+    def search_item_by_name(self, name):
         list_search_hits = []
         for item in self._dynamic_list:
             if item.name.find(name) == 0:

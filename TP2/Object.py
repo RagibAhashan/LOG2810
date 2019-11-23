@@ -5,4 +5,5 @@ class Object:
         self.name = name
     
     def printItem(self):
-        print("Object type: " + self.type + ". Object id code: "+ self.id_code + " Object name: " + self.name)
+        print(self.type + "   "+ self.id_code + "   " + self.name)
+        #print("Name: " + self.name + "   " + self.id_code + "   " +  self.type )
