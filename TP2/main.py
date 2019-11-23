@@ -65,45 +65,17 @@ def main():
 	# updated_list = entrepot.update_dynamic_list(ans)
 	
 
-	state_machine = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
+	state_machine_autocomplete = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
 
 
 	#print(state_machine.transition_state())
-	ans = state_machine.run()
+	ans = state_machine_autocomplete.run()
 	print(ans)
 
 
 	print("\n")
 
 	
-
-
-	# while(True):
-
-	# 	for item in updated_list:
-	# 		item.printItem()
-		
-	# 	for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
-	# 		print('')
-		
-	# 	print("Press Enter to exit...")
-	# 	inp = get_input("Search item by name: " + name)
-		
-	# 	if inp == False:
-	# 		break
-		
-	# 	if platform.system() == "Windows":
-	# 		if inp == '':
-	# 			name = name[0:len(name)-1]
-		
-	# 		name += inp
-	# 	else:
-	# 		name = inp
-		
-	# 	list_names_found = entrepot.search_item_by_name(name)
-	# 	updated_list 	 = entrepot.update_dynamic_list(list_names_found)
-		
-
 
 
 
