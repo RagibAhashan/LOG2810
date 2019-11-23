@@ -15,6 +15,21 @@ class Entrepot:
             if item.id_code == search_item.id_code:
                 return True
         return False
+
+    def check_if_item_exist(self, name = False, id_code = False, type_item = False):
+        if id_code != False:
+            code = self.find_item_by_id(id_code)
+            if code == False:
+                return False
+            else:
+                return True
+
+        if name != False:
+            for item in self._dynamic_list:
+                if item.name ==  name:
+                    return True
+        
+        pass
         
     def find_item_by_name(self, name):
         for item in self._dynamic_list:

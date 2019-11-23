@@ -60,6 +60,8 @@ class StateMachine:
             if current_state == S1_partial_success_state:
                 print("S1_partial_success_state")
                 ans = self.transition_state(ans[1])
+                if ans[2] == True:
+                    return ans[1]
                 if ans[0] == True:
                     current_state = S1_partial_success_state
                     item = self.entrepot_data.find_item_by_name(ans[1])
@@ -73,24 +75,34 @@ class StateMachine:
             if current_state == S2_fail_search_state:
                 print("S2_fail_search_state")
                 ans = self.transition_state(ans[1])
+                if ans[2] == True:
+                    return ans[1]
                 if ans[0] == True:
                     current_state = S1_partial_success_state
-                else:
+                elif ans[0] == False:
                     current_state = S2_fail_search_state
+                
 
             if current_state == S3_sucess_state:
                 print("S3_sucess_state")
                 length_ans_search = len(ans[1])
                 ans = self.transition_state(ans[1])
 
-                if length_ans_search < len(ans[1]):
+                new_file = self.entrepot_data.check_if_item_exist(ans[1])
+                if ans[2] == True:
+                    return ans[1]
+                if length_ans_search != len(ans[1]) and new_file:
+                    current_state = S3_sucess_state
+                else:
                     current_state = S2_fail_search_state
 
-                elif length_ans_search > len(ans[1]):
-                    current_state = S1_partial_success_state
 
-                elif length_ans_search == len(ans[1]):
+
+
+                if length_ans_search == len(ans[1]):
                     return ans[1]
+
+
 
             if current_state == S4_exit_state:
                 print("S4_exit_state")
@@ -99,9 +111,9 @@ class StateMachine:
 
 
 
-
+    # Return [state_direction, string, Is ENTER pressed? true: Yes]
     def transition_state(self, name = ''):
-        updated_list = self.entrepot_data.get_items_dynamic()
+        updated_list     = self.entrepot_data.get_items_dynamic()
         list_names_found = self.entrepot_data.search_item_by_name(name)
         updated_list     = self.entrepot_data.update_dynamic_list(list_names_found)
         
@@ -113,17 +125,14 @@ class StateMachine:
         for i in range(os.get_terminal_size().lines - len(updated_list) - 3):
             print("")
         
-        print("Press ENTER to exit...")
+        print("Press ENTER to confirm your search...")
 
         inp = get_input("Search item by name: " + name)
-
-        # if inp == False and len(updated_list) != 0:
-        #     return [True, name]
         
 
         if inp == False:
             print("ENTER")
-            return [True, name]
+            return [True, name, True]
 
         if platform.system() == "Windows":
             if inp == '':
@@ -137,9 +146,9 @@ class StateMachine:
         updated_list     = self.entrepot_data.update_dynamic_list(list_names_found)
 		
         if len(updated_list) != 0:
-            return [True, name]
+            return [True,  name, False]
         else:
-            return [False, name]
+            return [False, name, False]
 
     def stop(self):
         pass

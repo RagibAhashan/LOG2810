@@ -2,10 +2,7 @@ from Object import Object
 from OrderManager import OrderManager
 from Entrepot import Entrepot
 from State import State
-#from FiniteStateMachine import StateMachine
 from FiniteStateMachine import StateMachine
-
-
 import csv
 import numpy as np
 import msvcrt
@@ -25,8 +22,6 @@ def read_file(file_name = 'inventaire.txt'):
 				type_object = str(line[2])
 				item = Object(name, id_code, type_object)
 				items_list.append(item)
-                
-		print("Le ficher est lu!")
 	except Exception as e:
 		print("Erreur de lecture du fichier! Le fichier '" + file_name + "' ne peut pas être lu.")
 
