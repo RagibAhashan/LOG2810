@@ -4,12 +4,19 @@ import msvcrt
 import os
 import platform
 
+acceptable_chars = [ chr(i+97) for i in range(26)]
+for i in range(10):
+    acceptable_chars.append(str(i))
+
+
+
 
 def get_input(message = ''):
 	
 	if(platform.system() == 'Windows'):
 		print(str(message))
 		ans = str(msvcrt.getch())
+        
 		if ans[0] == 'b' and ans[1] == "'" and ans[3] == 'r':
 			return False
 		if ans.find('x08') == 3 and ans[1] == "'":
@@ -17,6 +24,8 @@ def get_input(message = ''):
 		return ans[2]
 	else:
 		return input(message + '\n')
+
+
 
 
 
@@ -81,7 +90,7 @@ class StateMachine:
                     current_state = S1_partial_success_state
 
                 elif length_ans_search == len(ans[1]):
-                    break
+                    return ans[1]
 
             if current_state == S4_exit_state:
                 print("S4_exit_state")

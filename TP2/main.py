@@ -69,8 +69,8 @@ def main():
 
 
 	#print(state_machine.transition_state())
-	state_machine.run()
-
+	ans = state_machine.run()
+	print(ans)
 
 
 	print("\n")
