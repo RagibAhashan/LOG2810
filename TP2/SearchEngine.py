@@ -11,20 +11,26 @@ class SearchEngine:
         self.entrepot_data          = entrepot_data
         self.search_items_hits      = entrepot_data.getItems()
         self.state_machine_mealy    = state_machine_mealy
+
+        self.filter_name_activated  = False
+        self.filter_type_activated  = False
+        self.filter_idCode_activated= False
         
     
     def search_by_type(self):
         print("Search id type")
-        
+        self.filter_type_activated  = True
 
     def search_by_name(self):
         print("Search id name")
         self.state_machine_mealy.run(True)
+        self.filter_name_activated = True
 
 
     def search_by_idCode(self):
         print("Search id code")
         self.state_machine_mealy.run(False)
+        self.filter_idCode_activated= True
     
 
     def get_search_filter_selection(self):
@@ -46,11 +52,23 @@ class SearchEngine:
                                                                                                     ##
         # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
         
+        
 
         print("Select a search filter")
-        print("Search by type [1] ")
-        print("Search by ID   [2]")
-        print("Search by name [3]\n")
+        if self.filter_type_activated == True:
+            print("Search by type [1]     [X]")
+        else:
+            print("Search by type [1]     [ ]")
+        
+        if self.filter_idCode_activated == True:
+            print("Search by ID   [2]     [X]")
+        else:
+            print("Search by ID   [2]     [ ]")
+
+        if self.filter_name_activated == True:
+            print("Search by name [3]     [X]\n")
+        else:
+            print("Search by name [3]     [ ]\n")
 
         while True : 
             search_type = str(input("Filter of choice: "))
@@ -80,9 +98,9 @@ class SearchEngine:
         
 
         print("Select a search filter")
-        print("Search by type [1] ")
-        print("Search by ID   [2]")
-        print("Search by name [3]\n")
+        print("Search by type [1]     [ ]")
+        print("Search by ID   [2]     [ ]")
+        print("Search by name [3]     [ ]\n")
 
         while True : 
             search_type = str(input("Filter of choice: "))
