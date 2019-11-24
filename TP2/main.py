@@ -4,8 +4,6 @@ from Entrepot import Entrepot
 from State import State
 from FiniteStateMachine import StateMachine
 import csv
-import numpy as np
-# import msvcrt
 import os
 import platform
 
@@ -49,22 +47,12 @@ def print_items(items):
 
 def main():
 	items_store = read_file()
-	print_items(items_store)
-
-	
-	name = ''
 
 	entrepot = Entrepot(items_store)
-	# ans = entrepot.search_item_by_name("")
 	
-
-	# updated_list = entrepot.update_dynamic_list(ans)
-	
-
 	state_machine_autocomplete = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
 
 
-	#print(state_machine.transition_state())
 	ans = state_machine_autocomplete.run()
 	print(ans)
 
@@ -77,5 +65,5 @@ def main():
 
 
 
-
-main()
+if __name__ == '__main__':
+	main()

@@ -8,5 +8,5 @@ class State:
     def printState(self):
         print("Name: "   + self.state_name)
         print("Inputs: " +     self.inputs)
-        print("Ouput: "  +     self.output)
+        print("Ouput: "  +     self.outputs)
 

@@ -1,6 +1,5 @@
 from State import State
 from Object import Object
-# import msvcrt
 import os
 import platform
 
@@ -124,13 +123,13 @@ class StateMachine:
             correction_spaces = 2                                                                   #
                                                                                                     #
         for space in range(os.get_terminal_size().lines - len(updated_list) - correction_spaces):   #
-            print("")                                                                               #
+            print('')                                                                               #
                                                                                                     #
         # Pas essentiel a l'inplementation de notre automate. C'est pour formatter l'affichage.######
 
 
 
-        print("Press ENTER to confirm your search...")
+        print("Press 'ENTER' to confirm your search...")
 
         inp = get_input("Search item by name: " + name)
         
@@ -140,9 +139,17 @@ class StateMachine:
             return [True, name, True]
 
         if platform.system() == "Windows":
+            ENTER_BOUTON = False
+            if inp == ENTER_BOUTON:
+                return [True, name, True]
+
             if inp == '':
                 name = name[0:len(name)-1]
             name += inp
+            
+
+
+
         else:
             name = inp
         

@@ -6,4 +6,4 @@ class Object:
     
     def printItem(self):
         print(self.type + "   "+ self.id_code + "   " + self.name)
-        #print("Name: " + self.name + "   " + self.id_code + "   " +  self.type )
+        
