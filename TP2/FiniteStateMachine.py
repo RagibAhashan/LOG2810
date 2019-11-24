@@ -36,11 +36,10 @@ class StateMachine:
         self.initial_state       = initial_state
         self.terminal_states     = terminal_states
         self.entrepot_data       = entrepot_data
+        self.search_hits         = entrepot_data.getItems()
 
-        self.search_hits = entrepot_data.getItems()
 
-
-    def run(self):
+    def run(self, search_name = True):
         S0_initial_state         = self.all_states[0]
         S1_partial_success_state = self.all_states[1]
         S2_fail_search_state     = self.all_states[2]
@@ -55,105 +54,229 @@ class StateMachine:
         exit_states_machine_index  = 2
 
 
-        while(True):
+        if search_name == True:
+            while(True):
 
-            if current_state == S0_initial_state:
-                print("S0_initial_state")
-                print("Items available: \n")
-                ans = self.transition_state()
+                if current_state == S0_initial_state:
+                    print("S0_initial_state")
+                    print("Items available: \n")
+                    ans = self.transition_state()
 
-                if self.entrepot_data.find_item_by_name(ans[search_name_index]) != False:
-                    current_state = S3_sucess_state
-                else:
-                    if ans[go_to_next_state_index] == True:
-                        current_state = S1_partial_success_state
-                    if ans[go_to_next_state_index] == False:
-                        current_state = S2_fail_search_state
+                    if self.entrepot_data.find_item_by_name(ans[search_name_index]) != False:
+                        current_state = S3_sucess_state
+                    else:
+                        if ans[go_to_next_state_index] == True:
+                            current_state = S1_partial_success_state
+                        if ans[go_to_next_state_index] == False:
+                            current_state = S2_fail_search_state
 
-            if current_state == S1_partial_success_state:
-                print("S1_partial_success_state")
-                print("'" + ans[search_name_index] + "' is not an item in the list.\nItems suggested:")
-                
+                if current_state == S1_partial_success_state:
+                    print("S1_partial_success_state")
+                    print("'" + ans[search_name_index] + "' is not an item in the list.\nItems suggested:")
+                    
 
-                
-                if platform.system() == 'Windows':    
-                    ans = self.transition_state(ans[search_name_index])            
+                    
+                    if platform.system() == 'Windows':    
+                        ans = self.transition_state(ans[search_name_index])            
+                        if ans[exit_states_machine_index] == True:
+                            return ans[search_name_index]
+                        
+                        if ans[go_to_next_state_index] == True:
+                            
+                            current_state = S1_partial_success_state
+                            item = self.entrepot_data.find_item_by_name(ans[search_name_index])
+                            if item != False:
+                                current_state = S3_sucess_state
+                        else:
+                            current_state = S2_fail_search_state
+                    else:
+                        self.displat_search_hits()
+                        print("")
+                        return ans[search_name_index]
+
+                if current_state == S2_fail_search_state:
+                    print("S2_fail_search_state")
+                    print("No items found: \n")
+                    if platform.system() != 'Windows':
+                        response = str(input("'" + ans[search_name_index] + "' does not exist. Would you like to keep searching? Enter [1] for yes: "))
+                        if response != '1' or response != "1":
+                            return ans[search_name_index]
+                        else:
+                            ans[search_name_index] = ''
+                    ans = self.transition_state(ans[1])
+                    
                     if ans[exit_states_machine_index] == True:
                         return ans[search_name_index]
                     
                     if ans[go_to_next_state_index] == True:
-                        
                         current_state = S1_partial_success_state
-                        item = self.entrepot_data.find_item_by_name(ans[search_name_index])
-                        if item != False:
-                            current_state = S3_sucess_state
-                    else:
+                    elif ans[go_to_next_state_index] == False:
                         current_state = S2_fail_search_state
-                else:
-                    self.displat_search_hits()
-                    print("")
+                    
+                    
+
+                if current_state == S3_sucess_state:
+                    print("S3_sucess_state")
+                    print("Search for '" + ans[search_name_index] + "' was found: \n")
+                    print("Search result for item '" + ans[search_name_index] + "'. " + str(len(self.search_hits)) + " results are found.") 
+                    length_ans_search = len(ans[search_name_index])
+
+                    for item in self.search_hits:
+                        item.printItem()
+                    
+                    # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+                    if platform.system() == "Windows":                                                          ##
+                        correction_spaces = 5                                                                   ##
+                    else:                                                                                       ##
+                        correction_spaces = 4                                                                   ##
+                                                                                                                ##
+                    for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
+                        print('')
+
                     return ans[search_name_index]
 
-            if current_state == S2_fail_search_state:
-                print("S2_fail_search_state")
-                print("No items found: \n")
-                if platform.system() != 'Windows':
-                    response = str(input("'" + ans[search_name_index] + "' does not exist. Would you like to keep searching? Enter [1] for yes: "))
-                    if response != '1' or response != "1":
-                        return ans[search_name_index]
+                    # ans = self.transition_state(ans[search_name_index])
+
+                    # object_name_search = self.entrepot_data.check_if_item_exist(ans[search_name_index])
+                    # if ans[exit_states_machine_index] == True:
+                    #     return ans[search_name_index]
+                    # if length_ans_search != len(ans[search_name_index]) and object_name_search:
+                    #     current_state = S3_sucess_state
+                    # else:
+                    #     current_state = S2_fail_search_state
+
+                    # if length_ans_search == len(ans[search_name_index]):
+                    #     return ans[search_name_index]
+
+
+
+                if current_state == S4_exit_state:
+                    print("S4_exit_state")
+                    break
+        
+        if search_name == False:
+            while(True):
+
+                if current_state == S0_initial_state:
+                    print("S0_initial_state")
+                    print("Items available: \n")
+                    ans = self.transition_state('','', search_name)
+
+                    if self.entrepot_data.find_item_by_id(ans[search_name_index]) != False:
+                        current_state = S3_sucess_state
                     else:
-                        ans[search_name_index] = ''
-                ans = self.transition_state(ans[1])
-                
-                if ans[exit_states_machine_index] == True:
+                        if ans[go_to_next_state_index] == True:
+                            current_state = S1_partial_success_state
+                        if ans[go_to_next_state_index] == False:
+                            current_state = S2_fail_search_state
+
+                if current_state == S1_partial_success_state:
+                    print("S1_partial_success_state")
+                    print("'" + ans[search_name_index] + "' is not an item in the list.\nItems suggested:")
+                    
+
+                    
+                    if platform.system() == 'Windows':    
+                        ans = self.transition_state('',ans[search_name_index],False)            
+                        if ans[exit_states_machine_index] == True:
+                            return ans[search_name_index]
+                        
+                        if ans[go_to_next_state_index] == True:
+                            
+                            current_state = S1_partial_success_state
+                            item = self.entrepot_data.find_item_by_id(ans[search_name_index])
+                            if item != False:
+                                current_state = S3_sucess_state
+                        else:
+                            current_state = S2_fail_search_state
+                    else:
+                        self.displat_search_hits()
+                        print("")
+                        return ans[search_name_index]
+
+                if current_state == S2_fail_search_state:
+                    print("S2_fail_search_state")
+                    print("No items found: \n")
+                    if platform.system() != 'Windows':
+                        response = str(input("'" + ans[search_name_index] + "' does not exist. Would you like to keep searching? Enter [1] for yes: "))
+                        if response != '1' or response != "1":
+                            return ans[search_name_index]
+                        else:
+                            ans[search_name_index] = ''
+                    ans = self.transition_state('',ans[1],False)
+                    
+                    if ans[exit_states_machine_index] == True:
+                        return ans[search_name_index]
+                    
+                    if ans[go_to_next_state_index] == True:
+                        current_state = S1_partial_success_state
+                    elif ans[go_to_next_state_index] == False:
+                        current_state = S2_fail_search_state
+                    
+                    
+
+                if current_state == S3_sucess_state:
+                    print("S3_sucess_state")
+                    print("Search for '" + ans[search_name_index] + "' was found: \n")
+                    print("Search result for item '" + ans[search_name_index] + "'. " + str(len(self.search_hits)) + " results are found.") 
+                    length_ans_search = len(ans[search_name_index])
+
+                    for item in self.search_hits:
+                        item.printItem()
+                    
+                    # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+                    if platform.system() == "Windows":                                                          ##
+                        correction_spaces = 5                                                                   ##
+                    else:                                                                                       ##
+                        correction_spaces = 4                                                                   ##
+                                                                                                                ##
+                    for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
+                        print('')
+
                     return ans[search_name_index]
-                
-                if ans[go_to_next_state_index] == True:
-                    current_state = S1_partial_success_state
-                elif ans[go_to_next_state_index] == False:
-                    current_state = S2_fail_search_state
-                
-                
 
-            if current_state == S3_sucess_state:
-                print("S3_sucess_state")
-                print(ans[search_name_index] + "Items found: \n")
-                print("Search result for item '" + ans[search_name_index] + "'. " + str(len(self.search_hits)) + " results are found.") 
-                length_ans_search = len(ans[search_name_index])
+                    # ans = self.transition_state(ans[search_name_index])
 
-                for item in self.search_hits:
-                    item.printItem()
-                
-                # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-                if platform.system() == "Windows":                                                          ##
-                    correction_spaces = 5                                                                   ##
-                else:                                                                                       ##
-                    correction_spaces = 4                                                                   ##
-                                                                                                            ##
-                for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
-                    print('')
+                    # object_name_search = self.entrepot_data.check_if_item_exist(ans[search_name_index])
+                    # if ans[exit_states_machine_index] == True:
+                    #     return ans[search_name_index]
+                    # if length_ans_search != len(ans[search_name_index]) and object_name_search:
+                    #     current_state = S3_sucess_state
+                    # else:
+                    #     current_state = S2_fail_search_state
 
-                return ans[search_name_index]
-
-                # ans = self.transition_state(ans[search_name_index])
-
-                # object_name_search = self.entrepot_data.check_if_item_exist(ans[search_name_index])
-                # if ans[exit_states_machine_index] == True:
-                #     return ans[search_name_index]
-                # if length_ans_search != len(ans[search_name_index]) and object_name_search:
-                #     current_state = S3_sucess_state
-                # else:
-                #     current_state = S2_fail_search_state
-
-                # if length_ans_search == len(ans[search_name_index]):
-                #     return ans[search_name_index]
+                    # if length_ans_search == len(ans[search_name_index]):
+                    #     return ans[search_name_index]
 
 
 
-            if current_state == S4_exit_state:
-                print("S4_exit_state")
-                break
+                if current_state == S4_exit_state:
+                    print("S4_exit_state")
+                    break
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def displat_search_hits(self):
         for item in self.search_hits:
@@ -170,61 +293,114 @@ class StateMachine:
                                                                                                     ##
         # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
 
+
+
     # Return [state_direction, string, Is ENTER pressed? true: Yes]
-    def transition_state(self, name = ''):
-        #suggested_list     = self.entrepot_data.get_items_dynamic()
-        list_names_found     = self.entrepot_data.search_item_by_name(name)
-        suggested_list       = self.entrepot_data.get_suggested_items(list_names_found)
+    def transition_state(self, name = '', id_code = '', search_name = True):
         
-    
-        for item in suggested_list:
-            item.printItem()
+        if search_name == True:
+            # list_names_found     = self.entrepot_data.search_item_by_name(name)
+            # suggested_list       = self.entrepot_data.get_suggested_items(list_names_found)
+            
         
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        if platform.system() == "Windows":                                                          ##
-            correction_spaces = 5                                                                   ##
-        else:                                                                                       ##
-            correction_spaces = 4                                                                   ##
-                                                                                                    ##
-        for space in range(os.get_terminal_size().lines - len(suggested_list) - correction_spaces): ##
-            print('')                                                                               ##
-                                                                                                    ##
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+            for item in self.search_hits:
+                item.printItem()
+            
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+            if platform.system() == "Windows":                                                          ##
+                correction_spaces = 5                                                                   ##
+            else:                                                                                       ##
+                correction_spaces = 4                                                                   ##
+                                                                                                        ##
+            for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
+                print('')                                                                               ##
+                                                                                                        ##
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+
+            print("Searching with name: " + name)
+
+            inp = get_input("Search item by name: ")
+            print("Press 'ENTER' to confirm your search...")
+            
 
 
+            if platform.system() == "Windows":
+                ENTER_BOUTON = False
+                if inp == ENTER_BOUTON:
+                    return [True, name, True]
 
-        print("Searching with name: " + name)
+                if inp == '':
+                    name = name[0:len(name)-1]
+                name += inp
 
-        inp = get_input("Search item by name: ")
-        print("Press 'ENTER' to confirm your search...")
+            else:
+                name = inp
+            
+            list_names_found   = self.entrepot_data.search_item_by_name(name)
+            suggested_list     = self.entrepot_data.get_suggested_items(list_names_found)
+
+            self.search_hits = suggested_list
+            print(len(self.search_hits))
+
+            # Si la liste 
+            if len(suggested_list) != 0:
+                # Aller au prochain etat. Sans sortir de la machine a etat.
+                return [True,  name, False]
+            else:
+                return [False, name, False]
         
-
-
-        if platform.system() == "Windows":
-            ENTER_BOUTON = False
-            if inp == ENTER_BOUTON:
-                return [True, name, True]
-
-            if inp == '':
-                name = name[0:len(name)-1]
-            name += inp
-
+        
+        
         else:
-            name = inp
+            # list_names_found     = self.entrepot_data.search_item_by_idCode(id_code)
+            # suggested_list       = self.entrepot_data.get_suggested_items_with_list_idcodes(list_names_found)
+            
         
-        list_names_found   = self.entrepot_data.search_item_by_name(name)
-        suggested_list     = self.entrepot_data.get_suggested_items(list_names_found)
+            for item in self.search_hits:
+                item.printItem()
+            
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+            if platform.system() == "Windows":                                                          ##
+                correction_spaces = 5                                                                   ##
+            else:                                                                                       ##
+                correction_spaces = 4                                                                   ##
+                                                                                                        ##
+            for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
+                print('')                                                                                 ##
+                                                                                                          ##
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
 
-        self.search_hits = suggested_list
-        print(len(self.search_hits))
+            print("Searching with name: " + id_code)
 
-        # Si la liste 
-        if len(suggested_list) != 0:
-            # Aller au prochain etat. Sans sortir de la machine a etat.
-            return [True,  name, False]
-        else:
-            return [False, name, False]
+            inp = get_input("Search item by ID CODE: ")
+            print("Press 'ENTER' to confirm your search...")
+            
 
+
+            if platform.system() == "Windows":
+                ENTER_BOUTON = False
+                if inp == ENTER_BOUTON:
+                    return [True, id_code, True]
+
+                if inp == '':
+                    id_code = id_code[0:len(id_code)-1]
+                id_code += inp
+
+            else:
+                id_code = inp
+            
+            list_names_found   = self.entrepot_data.search_item_by_idCode(id_code)
+            suggested_list     = self.entrepot_data.get_suggested_items_with_list_idcodes(list_names_found)
+
+            self.search_hits = suggested_list
+            print(len(self.search_hits))
+
+            # Si la liste 
+            if len(suggested_list) != 0:
+                # Aller au prochain etat. Sans sortir de la machine a etat.
+                return [True,  id_code, False]
+            else:
+                return [False, id_code, False]
 
     
     

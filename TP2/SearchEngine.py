@@ -15,21 +15,20 @@ class SearchEngine:
     
     def search_by_type(self):
         print("Search id type")
+        
 
     def search_by_name(self):
         print("Search id name")
-        self.state_machine_mealy.run()
+        self.state_machine_mealy.run(True)
 
 
     def search_by_idCode(self):
         print("Search id code")
+        self.state_machine_mealy.run(False)
     
-    def update_search_items(self):
-        self.search_items_hits = self.state_machine_mealy.search_hits
-
 
     def get_search_filter_selection(self):
-        self.update_search_items()
+        self.search_items_hits = self.state_machine_mealy.search_hits
 
         print("List of items found on research...")
         for item in self.search_items_hits:
@@ -52,8 +51,14 @@ class SearchEngine:
         print("Search by type [1] ")
         print("Search by ID   [2]")
         print("Search by name [3]\n")
+
+        while True : 
+            search_type = str(input("Filter of choice: "))
+            if search_type == '1' or search_type == '2' or search_type == '3':
+                break
+            print("Choix possibles: [1, 2, 3]")
         
-        return str(input("Filter of choice: "))
+        return search_type
 
     def search_item(self):
 

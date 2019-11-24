@@ -63,8 +63,19 @@ class Entrepot:
         for i in range(len(self._items_list)):
             if self._items_list[i].name in list_hits_names:
                 updated_list.append(self._items_list[i])
-
-
-
         return updated_list
+
+
+    def search_item_by_idCode(self, idCode):
+        list_search_hits = []
+        for item in self._dynamic_list:
+            if item.id_code.find(idCode) == 0:
+                list_search_hits.append(item.id_code)   
+        return list_search_hits
         
+    def get_suggested_items_with_list_idcodes(self, list_id_codes):
+        updated_list = []
+        for i in range(len(self._items_list)):
+            if self._items_list[i].id_code in list_id_codes:
+                updated_list.append(self._items_list[i])
+        return updated_list
