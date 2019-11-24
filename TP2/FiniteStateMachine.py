@@ -13,19 +13,18 @@ if platform.system() == 'Windows':
 
 
 def get_input(message = ''):
-	
-	if(platform.system() == 'Windows'):
-		print(str(message))
-		ans = str(msvcrt.getch())
-        
-		if ans[0] == 'b' and ans[1] == "'" and ans[3] == 'r':
-			return False
-		if ans.find('x08') == 3 and ans[1] == "'":
-			return ''
-		return ans[2]
-	else:
-		return input(message )
+    if platform.system() == 'Windows':
+        print(str(message))
+        ans = str(msvcrt.getch())
 
+        if ans[0] == 'b' and ans[1] == "'" and ans[3] == 'r':
+            return False
+        if ans.find('x08') == 3 and ans[1] == "'":
+            return ''
+        return ans[2]
+    else:
+        ans = str(input(message))
+        return ans
 
 
 
@@ -46,8 +45,8 @@ class StateMachine:
         S3_sucess_state          = self.all_states[3]
         S4_exit_state            = self.all_states[4]
 
-        current_state         = S0_initial_state
-        ans = [False, ""]
+        current_state            = S0_initial_state
+        ans = [False, "", False]
 
         while(True):
 
@@ -68,7 +67,6 @@ class StateMachine:
                     item = self.entrepot_data.find_item_by_name(ans[1])
                     if item != False:
                         current_state = S3_sucess_state
-
                 else:
                     current_state = S2_fail_search_state
                 
@@ -89,16 +87,13 @@ class StateMachine:
                 length_ans_search = len(ans[1])
                 ans = self.transition_state(ans[1])
 
-                new_file = self.entrepot_data.check_if_item_exist(ans[1])
+                object_name_search = self.entrepot_data.check_if_item_exist(ans[1])
                 if ans[2] == True:
                     return ans[1]
-                if length_ans_search != len(ans[1]) and new_file:
+                if length_ans_search != len(ans[1]) and object_name_search:
                     current_state = S3_sucess_state
                 else:
                     current_state = S2_fail_search_state
-
-
-
 
                 if length_ans_search == len(ans[1]):
                     return ans[1]
@@ -122,15 +117,18 @@ class StateMachine:
         for item in updated_list:
             item.printItem()
         
+        # Pas essentiel a l'inplementation de notre automate. C'est pour formatter l'affichage.######
+        if platform.system() == "Windows":                                                          #
+            correction_spaces = 3                                                                   #
+        else:                                                                                       #
+            correction_spaces = 2                                                                   #
+                                                                                                    #
+        for space in range(os.get_terminal_size().lines - len(updated_list) - correction_spaces):   #
+            print("")                                                                               #
+                                                                                                    #
+        # Pas essentiel a l'inplementation de notre automate. C'est pour formatter l'affichage.######
 
-        if platform.system() == "Windows":
-            correction_spaces = 3
-        else:
-            correction_spaces = 2
-        
-        for i in range(os.get_terminal_size().lines - len(updated_list) - correction_spaces):
-            print("")
-        
+
 
         print("Press ENTER to confirm your search...")
 
@@ -138,16 +136,15 @@ class StateMachine:
         
 
         if inp == False:
-            print("ENTER")
+            # Cas: le input est 'ENTER'
             return [True, name, True]
 
         if platform.system() == "Windows":
             if inp == '':
                 name = name[0:len(name)-1]
-            
             name += inp
         else:
-            name += inp
+            name = inp
         
         list_names_found = self.entrepot_data.search_item_by_name(name)
         updated_list     = self.entrepot_data.update_dynamic_list(list_names_found)
