@@ -38,6 +38,8 @@ class StateMachine:
         self.entrepot_data       = entrepot_data
         self.search_hits         = entrepot_data.getItems()
 
+        self.currently_searching_item_name = ''
+
 
     def run(self, search_name = True):
         S0_initial_state         = self.all_states[0]
@@ -307,14 +309,13 @@ class StateMachine:
                 item.printItem()
             
             # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-            if platform.system() == "Windows":                                                          ##
-                correction_spaces = 5                                                                   ##
-            else:                                                                                       ##
-                correction_spaces = 4                                                                   ##
-                                                                                                        ##
-            for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
-                print('')                                                                               ##
-                                                                                                        ##
+            if platform.system() == "Windows":                                                          
+                correction_spaces = 5                                                                   
+            else:                                                                                       
+                correction_spaces = 4                                                                   
+                                                                                                        
+            for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): 
+                print('')                                                                               
             # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
 
             print("Searching with name: " + name)
@@ -341,6 +342,7 @@ class StateMachine:
 
             self.search_hits = suggested_list
             print(len(self.search_hits))
+            self.currently_searching_item_name = name
 
             # Si la liste 
             if len(suggested_list) != 0:
@@ -352,10 +354,8 @@ class StateMachine:
         
         
         else:
-            # list_names_found     = self.entrepot_data.search_item_by_idCode(id_code)
-            # suggested_list       = self.entrepot_data.get_suggested_items_with_list_idcodes(list_names_found)
             
-        
+
             for item in self.search_hits:
                 item.printItem()
             
@@ -394,6 +394,7 @@ class StateMachine:
 
             self.search_hits = suggested_list
             print(len(self.search_hits))
+            self.currently_searching_item_name = id_code
 
             # Si la liste 
             if len(suggested_list) != 0:

@@ -52,18 +52,8 @@ def main():
 	entrepot = Entrepot(items_store)
 	
 	state_machine_mealy = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
-
-
-	#ans = state_machine_mealy.run()
-	#print(ans)
-
 	search_engine = SearchEngine(entrepot, state_machine_mealy)
-	search_engine.search_item()
-
-
-
-	print("\n")
-
+	search_engine.run_search_engine()
 	
 
 
