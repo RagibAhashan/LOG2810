@@ -3,6 +3,7 @@ from OrderManager import OrderManager
 from Entrepot import Entrepot
 from State import State
 from FiniteStateMachine import StateMachine
+from SearchEngine import SearchEngine
 import csv
 import os
 import platform
@@ -50,11 +51,15 @@ def main():
 
 	entrepot = Entrepot(items_store)
 	
-	state_machine_autocomplete = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
+	state_machine_mealy = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot)
 
 
-	ans = state_machine_autocomplete.run()
-	print(ans)
+	#ans = state_machine_mealy.run()
+	#print(ans)
+
+	search_engine = SearchEngine(entrepot, state_machine_mealy)
+	search_engine.search_item()
+
 
 
 	print("\n")

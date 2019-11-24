@@ -58,11 +58,13 @@ class Entrepot:
                 list_search_hits.append(item.name)   
         return list_search_hits
     
-    def update_dynamic_list(self, list_hits_names):
+    def get_suggested_items(self, list_hits_names):
         updated_list = []
         for i in range(len(self._items_list)):
             if self._items_list[i].name in list_hits_names:
                 updated_list.append(self._items_list[i])
+
+
 
         return updated_list
         
