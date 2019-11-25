@@ -1,5 +1,6 @@
 import os
 import platform
+from FiniteStateMachine import StateMachine
 
 acceptable_chars = [ chr(i+97) for i in range(26)]
 for i in range(10):
@@ -7,235 +8,142 @@ for i in range(10):
 
 
 class SearchEngine:
-    def __init__(self, entrepot_data, state_machine_mealy):
-        self.entrepot_data          = entrepot_data
-        self.search_items_hits      = entrepot_data.get_items_dynamic()
-        self.state_machine_mealy    = state_machine_mealy
-
-        self.filter_name_activated  = False
-        self.filter_type_activated  = False
-        self.filter_idCode_activated= False
-
-        self.search_name   = ''
-        self.search_type   = ''
-        self.search_IDCODE = ''
+    def __init__(self, entrepot_data):
+        self.states_machine = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot_data)   # Composition.
+        self.entrepot       = entrepot_data                                         # Agregation.
         
+        self.search_results = entrepot_data.get_items_dynamic().copy()
+        self.search_type    = ''
+        self.search_IDCODE  = ''
+        self.search_name    = ''
+        
+        
+    def sort_with_type(self):
+        answer = str(input("Select a type: "))
+        if answer == 'A' or answer == 'B' or answer == 'C':
+            self.states_machine.search_hits = self.entrepot.find_items_by_Type(answer)
+            return answer
+        else:
+            self.sort_with_type()
     
-    def update_search_filters(self):
-        temp_array = self.search_items_hits[:]
-        self.search_items_hits.clear()
-        for item in self.state_machine_mealy.search_hits:
-            if item in temp_array:
-                self.search_items_hits.append(item)
 
+    def update_search_results(self):
+        updated_list = []
 
-
-    def reset_filters(self):
-        self.search_items_hits = self.entrepot_data.get_items_dynamic()
-
-
-
-    def search_by_type(self, reset_filter = False):
-        print("Search id type")
-
-        for item in self.search_items_hits:
+        for item in self.search_results:
+            for i in range(len(self.states_machine.search_hits)):
+                if item.id_code == self.states_machine.search_hits[i].id_code:
+                    print("item.id_code: " + item.id_code + "    "+ self.states_machine.search_hits[i].id_code)
+                    updated_list.append(item)
+        
+        print("====LIST====\n")
+        for item in updated_list:
             item.printItem()
+        print("====LIST====\n")
+        return updated_list
 
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        if platform.system() == "Windows":                                                          ##
-            correction_spaces = 3                                                                   ##
-        else:                                                                                       ##
-            correction_spaces = 2                                                                   ##
-                                                                                                    ##
-        for space in range(os.get_terminal_size().lines - len(self.search_items_hits) - correction_spaces): ##
-            print('')                                                                               ##
-                                                                                                    ##
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
 
-        # if reset_filter == True:
-        #     self.filter_type_activated  = False
+
+    def reset_search(self):
+        self.states_machine.search_hits      = self.entrepot.get_items_dynamic().copy()
+        self.states_machine.name_item_search = ''
+        self.search_type    = ''
+        self.search_IDCODE  = ''
+        self.search_name    = ''
+        self.search_results = self.entrepot.get_items_dynamic().copy()
+
+    
+
+    def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = ''):
+        # if suggested == True:
+        #     print("==== ITEMS SUGGESTED ====\n")
         # else:
-        #     self.filter_type_activated  = True
+        #     print("==== ITEMS IN STOCK ====\n")
         
 
-
-        ans_type = str(input("Search Type: "))
-        self.search_type = ans_type
-        list_hits_type = self.entrepot_data.find_items_by_Type(ans_type)
+        print(header_msg)
+        print(sub_head_msg)
 
 
 
-        temp_array = self.search_items_hits[:]
-        self.search_items_hits.clear()
-
-        # Deep search
-        for item in list_hits_type:
-            for i in range(len(temp_array)):
-                if item.type == temp_array[i].type:
-                    self.search_items_hits.append(item)
-
-
-
-
-
-
-
-
-    def search_by_name(self, reset_filter = False):
-        print("Search id name")
-        self.state_machine_mealy.run(True)
-
-        if reset_filter == True:
-            self.filter_name_activated = False
-        else:
-            self.filter_name_activated = True
-
-
-    def search_by_idCode(self, reset_filter = False):
-        print("Search id code")
-        self.state_machine_mealy.run(False)
-        #self.filter_idCode_activated= True
-        if reset_filter == True:
-            self.filter_idCode_activated = False
-        else:
-            self.filter_idCode_activated = True
-    
-
-    def get_search_filter_selection(self):
-        temp_array = self.search_items_hits[:]
-        self.search_items_hits.clear()
-        for item in self.state_machine_mealy.search_hits:
-            if item in temp_array:
-                self.search_items_hits.append(item)
-
-        print("List of items found on research...")
-        for item in self.search_items_hits:
+        for item in self.search_results:
             item.printItem()
         
-        
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        if platform.system() == "Windows":                                                          ##
-            correction_spaces = 13                                                                   ##
-        else:                                                                                       ##
-            correction_spaces = 12                                                                   ##
-                                                                                                    ##
-        for space in range(os.get_terminal_size().lines - len(self.search_items_hits) - correction_spaces): ##
-            print('')                                                                               ##
-                                                                                                    ##
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
+        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
+        correction_spaces = 16
+        for space in range(os.get_terminal_size().lines - len(self.search_results) - correction_spaces): 
+            print('')
 
         print("Searching: ")
-        print("          Type    : " + self.search_type  )
-        print("          IDCODE  : " + self.search_IDCODE)
-        print("          Name    : " + self.search_name  )
-
-        
-        
-
+        print("            TYPE : " + self.search_type  )
+        print("          IDCODE : " + self.search_IDCODE)
+        print("            NAME : " + self.search_name  )
         print("\nSelect a search filter")
-        if self.filter_type_activated == True:
-            print(" Search by type [1]     [X]")
-        else:
-            print(" Search by type [1]     [ ]")
+        print("     Search by type [1]")
+        print("     Search by ID   [2]")
+        print("     Search by name [3]")
+        print("     Reset filters  [4]")
+        print("     Confirm Search [5]")
+        print("     Exit Search    [6]")                                                                 
+                                                                                                    
         
-        if self.filter_idCode_activated == True:
-            print(" Search by ID   [2]     [X]")
-        else:
-            print(" Search by ID   [2]     [ ]")
-
-        if self.filter_name_activated == True:
-            print(" Search by name [3]     [X]")
-        else:
-            print(" Search by name [3]     [ ]")
-
-        print(" Reset filters  [4]")
-
-        while True : 
-            search_type = str(input("Filter of choice: "))
-            if search_type == '1' or search_type == '2' or search_type == '3' or search_type == '4':
-                break
-            print("Choix possibles: [1, 2, 3, 4]")
-        
-        return search_type
 
 
 
     def run_search_engine(self):
-
-        print("===== ITEMS IN STOCK =====")
-        for item in self.entrepot_data.get_items_dynamic():
-            item.printItem()
         
+        # States
+        TYPE   = 1
+        IDCODE = 2
+        NAME   = 3
+        RESET_FILTERS = 4
+        CONFIRM_SEARCH = 5
+        EXIT_SEARCH = 6
         
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        if platform.system() == "Windows":                                                          
-            correction_spaces = 8                                                                   
-        else:                                                                                       
-            correction_spaces = 7                                                                   
-                                                                                                    
-        for space in range(os.get_terminal_size().lines - len(self.entrepot_data.get_items_dynamic()) - correction_spaces): 
-            print('')                                                                                       
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-
-        print("Select a search filter")
-        print("Search by type [1]     [ ]")
-        print("Search by ID   [2]     [ ]")
-        print("Search by name [3]     [ ]\n")
-
-        while True : 
-            search_type = str(input("Filter of choice: "))
-            if search_type == '1' or search_type == '2' or search_type == '3':
-                break
-            print("Choix possibles: [1, 2, 3]")
-
-
-        type_search   = '1'
-        id_search     = '2'
-        name_search   = '3'
-        reset_filters = '4'
+        filter_selection = 1
+        self.get_search_filter_selection('==== ITEMS IN STOCK ====')
+        print('')
+        filter_selection = int(input("Select Search Parameter: "))
 
         while True:
-
-            if search_type == type_search:
-                self.update_search_filters()
-                self.search_by_type()
-                ans = input("Would you like to change search filters? Enter 1 for YES: ")
-                if ans != '1':
-                    break
-                elif ans in acceptable_chars:
-                    search_type = self.get_search_filter_selection()
-
-            if search_type == id_search:
-                self.update_search_filters()
-                self.search_by_idCode()
-                self.search_IDCODE = self.state_machine_mealy.currently_searching_item_name
-                ans = input("Would you like to change search filters? Enter 1 for YES: ")
-                if ans != '1':
-                    break
-                else:
-                    search_type = self.get_search_filter_selection()
-
-            if search_type == name_search:
-                self.update_search_filters()
-                self.search_by_name()
-                self.search_name = self.state_machine_mealy.currently_searching_item_name
-                ans = input("Would you like to change search filters? Enter 1 for YES: ")
-                if ans != '1':
-                    break
-                else:
-                    search_type = self.get_search_filter_selection()
-
-            if search_type == reset_filters:
-                self.reset_filters()
-                search_type = self.get_search_filter_selection()
+            if filter_selection == TYPE:
+                self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+                self.search_type = self.sort_with_type()
+                self.search_results = self.update_search_results()
                 
-                    
+                
+            
+            if filter_selection == IDCODE:
+                self.states_machine.settings_machine('IDCODE')
+                self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+                self.states_machine.run()
+                self.search_results = self.update_search_results()
+                self.search_IDCODE  = self.states_machine.name_item_search
 
+            if filter_selection == NAME:
+                self.states_machine.settings_machine('NAME')
+                self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+                self.states_machine.run()
+                self.search_results = self.update_search_results()
+                self.search_name    = self.states_machine.name_item_search
+            
+            if filter_selection == RESET_FILTERS:
+                self.reset_search()
+                self.get_search_filter_selection('==== ITEMS IN STOCK ====')
+            
+            if filter_selection == CONFIRM_SEARCH:
+                if len(self.search_results) == 1:
+                    return self.search_results[0]
+                else:
+                    self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
+            
+            if filter_selection == EXIT_SEARCH:
+                pass
 
-
-        
-        
-    
-
+            self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+            
+            filter_selection = int(input("\nSelect Search Parameter: "))
+            
+                
 
 

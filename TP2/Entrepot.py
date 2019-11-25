@@ -28,7 +28,6 @@ class Entrepot:
             for item in self._dynamic_list:
                 if item.name ==  name:
                     return True
-        
         pass
         
     def find_item_by_name(self, name):
