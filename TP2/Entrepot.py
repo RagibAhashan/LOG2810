@@ -4,6 +4,12 @@ class Entrepot:
         self._dynamic_list = items_list[:]
         
     
+
+    def remove_item(self, item):
+        self._dynamic_list.remove(item)
+
+
+
     def getItems(self):
         return self._items_list
 

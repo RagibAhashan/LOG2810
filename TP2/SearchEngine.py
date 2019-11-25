@@ -12,7 +12,7 @@ class SearchEngine:
         self.states_machine = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot_data)   # Composition.
         self.entrepot       = entrepot_data                                         # Agregation.
         
-        self.search_results = entrepot_data.get_items_dynamic().copy()
+        self.search_results = entrepot_data.get_items_dynamic()
         self.search_type    = ''
         self.search_IDCODE  = ''
         self.search_name    = ''
@@ -45,12 +45,12 @@ class SearchEngine:
 
 
     def reset_search(self):
-        self.states_machine.search_hits      = self.entrepot.get_items_dynamic().copy()
+        self.states_machine.search_hits      = self.entrepot.get_items_dynamic()
         self.states_machine.name_item_search = ''
         self.search_type    = ''
         self.search_IDCODE  = ''
         self.search_name    = ''
-        self.search_results = self.entrepot.get_items_dynamic().copy()
+        self.search_results = self.entrepot.get_items_dynamic()
 
     
 
@@ -133,7 +133,9 @@ class SearchEngine:
             
             if filter_selection == CONFIRM_SEARCH:
                 if len(self.search_results) == 1:
-                    return self.search_results[0]
+                    item = self.search_results[0]
+                    self.reset_search()
+                    return item
                 else:
                     self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
             

@@ -52,8 +52,10 @@ def main():
 	entrepot = Entrepot(items_store)
 	
 	search_engine = SearchEngine(entrepot)
-	ans = search_engine.run_search_engine()
-	print(ans)
+	while True:
+		ans = search_engine.run_search_engine()
+		entrepot.remove_item(ans)
+	
 	
 
 
