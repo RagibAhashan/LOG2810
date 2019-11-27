@@ -84,9 +84,6 @@ def main():
 
 if __name__ == '__main__':
 	platform_using = platform.system()
-	if platform_using == 'Windows':
-		main()
-	else:
-		print("******CE PROGRAMME NE FONCTIONNE QUE SUR WINDOWS******")
-		print("VOUS UTILISEZ UNE VERSION DE ***"+ platform_using + "***")
+	main()
+
 		
