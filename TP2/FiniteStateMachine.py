@@ -4,20 +4,6 @@ import os
 import platform
 
 
-# def get_input(message = ''):
-#     if platform.system() == 'Windows':
-#         print(str(message))
-#         ans = str(msvcrt.getch())
-
-#         if ans[0] == 'b' and ans[1] == "'" and ans[3] == 'r':
-#             return False
-#         if ans.find('x08') == 3 and ans[1] == "'":
-#             return ''
-#         return ans[2]
-#     else:
-#         ans = str(input(message))
-#         return ans
-
 class StateMachine:
     
     def __init__(self, all_states, initial_state, terminal_states, entrepot_data):
@@ -26,8 +12,10 @@ class StateMachine:
         self.terminal_states  = terminal_states
         self.entrepot_data    = entrepot_data
         
-        self.search_hits       = entrepot_data.get_items_dynamic().copy()
-        self.name_item_search  = ''
+        self.search_hits        = entrepot_data.get_items_dynamic().copy()
+        self.search_hits_IDCODE = entrepot_data.get_items_dynamic().copy()
+        self.search_hits_TYPE   = entrepot_data.get_items_dynamic().copy()
+        self.name_item_search   = ''
         self._run_name_search   = True
         self._run_IDCODE_search = False
 
@@ -54,9 +42,9 @@ class StateMachine:
         current_state            = S0_initial_state
 
         if self._run_name_search:
-            input_message = "Search name: "
+            input_message = "\nSearch name: "
         else:
-            input_message = "Search IDCODE: "
+            input_message = "\nSearch IDCODE: "
 
         
         while True:
@@ -89,23 +77,7 @@ class StateMachine:
             if current_state == S4_exit_state:
                 return "EXIT"
 
-            
 
-    def displat_search_hits(self):
-        for item in self.search_hits:
-            item.printItem()
-        
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        if platform.system() == "Windows":                                                          ##
-            correction_spaces = 5                                                                   ##
-        else:                                                                                       ##
-            correction_spaces = 4                                                                   ##
-                                                                                                    ##
-        for space in range(os.get_terminal_size().lines - len(self.search_hits) - correction_spaces): ##
-            print('')                                                                               ##
-                                                                                                    ##
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.#######
-        pass
 
 
 
@@ -129,7 +101,11 @@ class StateMachine:
         
         if self._run_IDCODE_search == True:
             names_suggested_list = self.entrepot_data.search_item_by_idCode(name_item_search)
-            self.search_hits     = self.entrepot_data.get_suggested_items_with_list_idcodes(names_suggested_list)
+            #self.search_hits     = self.entrepot_data.get_suggested_items_with_list_idcodes(names_suggested_list)
+
+            self.search_hits_IDCODE = self.entrepot_data.get_suggested_items_with_list_idcodes(names_suggested_list)
+
+
             # for item in self.search_hits:
             #     item.printItem()
 
