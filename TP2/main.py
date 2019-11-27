@@ -50,7 +50,7 @@ def print_items(items):
 
 
 def main():
-	items_store = read_file()
+	items_store = read_file('Inventaire_grosFichier.txt')
 
 	entrepot = Entrepot(items_store)
 	
