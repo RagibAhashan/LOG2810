@@ -4,6 +4,8 @@ from Entrepot import Entrepot
 from State import State
 from FiniteStateMachine import StateMachine
 from SearchEngine import SearchEngine
+from ShoppingCart import ShoppingCart
+from OrderManager import OrderManager
 import csv
 import os
 import platform
@@ -52,12 +54,21 @@ def main():
 	entrepot = Entrepot(items_store)
 	
 	search_engine = SearchEngine(entrepot)
+
+	items = []
+
+	shopping_cart = ShoppingCart(items)
+
+	orders = OrderManager(items_store, search_engine, shopping_cart)
+	
 	while True:
 		ans = search_engine.run_search_engine()
+		### add order here
+		orders.add_item(ans)
+		### watch out for remove -> states
 		entrepot.remove_item(ans)
 	
 	
-
 
 
 
