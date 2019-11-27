@@ -17,20 +17,27 @@ class SearchEngine:
         self.search_name    = ''
         
         
+        
     def sort_with_type(self):
         
         answer = str(input("\nSelect a type: "))
-        if self.search_type == '':
+        if answer == '':
             self.states_machine.search_hits_TYPE    = self.entrepot.get_items_dynamic()
+            return answer
+        print('\n     SUCCESS!\n     Loading Results...   \n')
         self.states_machine.search_hits_TYPE = self.entrepot.find_items_by_Type(answer)
         return answer
             
     
 
-    def update_search_results(self, updated_IDCODE = False, updated_NAME = False):
+    def update_search_results(self):
         
         search_results = []
         recent_results = []
+
+        if  self.search_type == '' and self.search_IDCODE == '' and self.search_name == '':
+            self.number_results_found = 0
+            return search_results
 
         for recent_hit in self.states_machine.search_hits_TYPE:
             for hit_IDCODE in self.states_machine.search_hits_IDCODE:
@@ -123,25 +130,25 @@ class SearchEngine:
     def run_search_engine(self):
         
         # States
-        TYPE   = 1
-        IDCODE = 2
-        NAME   = 3
-        RESET_FILTERS = 4
-        CONFIRM_SEARCH = 5
-        EXIT_SEARCH = 6
+        TYPE   = '1'
+        IDCODE = '2'
+        NAME   = '3'
+        RESET_FILTERS = '4'
+        CONFIRM_SEARCH = '5'
+        EXIT_SEARCH = '6'
         
-        filter_selection = 1
+        filter_selection = '1'
         self.get_search_filter_selection('==== SEARCH MENU ====', '', True)
-        print('')
-        filter_selection = int(input("Select Search Parameter: "))
+        
+        filter_selection = input("\nSelect Search Parameter: ")
 
         first_searched_activation = False
         print_permission = False
 
+        acceptable_inputs = ['1','2','3','4','5']
+
         while True:
             if filter_selection == TYPE:
-                
-
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_permission)
                 self.search_type = self.sort_with_type()
                 self.search_results = self.update_search_results()
@@ -149,49 +156,62 @@ class SearchEngine:
                 
                 
             
-            if filter_selection == IDCODE:
-                if first_searched_activation == False:
-                    first_searched_activation = True
-
-
+            if (filter_selection) == IDCODE:
                 self.states_machine.settings_machine('IDCODE')
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_permission)
                 self.states_machine.run()
-                self.search_results = self.update_search_results()
                 self.search_IDCODE  = self.states_machine.name_item_search
+                self.search_results = self.update_search_results()
+                
                 print_permission = True
 
-            if filter_selection == NAME:
-                if first_searched_activation == False:
-                    first_searched_activation = True
 
-
+            if (filter_selection) == NAME:
                 self.states_machine.settings_machine('NAME')
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_permission)
                 self.states_machine.run()
-                self.search_results = self.update_search_results()
                 self.search_name    = self.states_machine.name_item_search
+                self.search_results = self.update_search_results()
                 print_permission = True
+
+
             
-            if filter_selection == RESET_FILTERS:
+            if (filter_selection) == RESET_FILTERS:
                 self.reset_search()
-                self.get_search_filter_selection('==== ITEMS IN STOCK ====')
                 print_permission = False
+                self.get_search_filter_selection('==== ITEMS IN STOCK ====', '', print_permission)
+                return self.run_search_engine()
+                
+
+
+
             
-            if filter_selection == CONFIRM_SEARCH:
+            if (filter_selection) == CONFIRM_SEARCH:
                 if len(self.search_results) == 1:
+                    print_permission = False
                     item = self.search_results[0]
                     self.reset_search()
                     return item
                 else:
                     self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
             
-            if filter_selection == EXIT_SEARCH:
+            if (filter_selection) == EXIT_SEARCH:
                 return False
 
             self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+
+
             
-            filter_selection = int(input("\nSelect Search Parameter: "))
+            filter_selection = str(input("\nSelect Search Parameter: "))
+            if  self.search_type == '' and self.search_IDCODE == '' and self.search_name == '':
+                print_permission = False
+
+            if filter_selection == '':
+                break
+            
+
+            
+
             
                 
 
