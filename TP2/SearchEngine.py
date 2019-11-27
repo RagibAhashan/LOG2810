@@ -2,16 +2,14 @@ import os
 import platform
 from FiniteStateMachine import StateMachine
 
-acceptable_chars = [ chr(i+97) for i in range(26)]
-for i in range(10):
-    acceptable_chars.append(str(i))
 
 
 class SearchEngine:
     def __init__(self, entrepot_data):
         self.states_machine = StateMachine([0,1,2,3,4] , 0, [3,4], entrepot_data)   # Composition.
-        self.entrepot       = entrepot_data                                         # Agregation.
         
+        self.entrepot       = entrepot_data                                         # Agregation.
+
         self.search_results = entrepot_data.get_items_dynamic()
         self.search_type    = ''
         self.search_IDCODE  = ''
@@ -19,33 +17,72 @@ class SearchEngine:
         
         
     def sort_with_type(self):
+        #while True:
         answer = str(input("Select a type: "))
-        if answer == 'A' or answer == 'B' or answer == 'C':
-            self.states_machine.search_hits = self.entrepot.find_items_by_Type(answer)
-            return answer
-        else:
-            self.sort_with_type()
+        #if answer == 'A' or answer == 'B' or answer == 'C':
+        self.states_machine.search_hits_TYPE = self.entrepot.find_items_by_Type(answer)
+        return answer
+            
     
 
-    def update_search_results(self):
+    def update_search_results(self, updated_IDCODE = False, updated_NAME = False):
         updated_list = []
 
-        for item in self.search_results:
-            for i in range(len(self.states_machine.search_hits)):
-                if item.id_code == self.states_machine.search_hits[i].id_code:
-                    print("item.id_code: " + item.id_code + "    "+ self.states_machine.search_hits[i].id_code)
-                    updated_list.append(item)
+        # entrepot_list = self.entrepot.get_items_dynamic()
         
-        print("====LIST====\n")
-        for item in updated_list:
-            item.printItem()
-        print("====LIST====\n")
-        return updated_list
+        
+        # hits_TYPE_list   = []
+        # hits_IDCODE_list = []
+        # hits_NAME_lits   = []
+
+        # all_hits_unordered = [self.states_machine.search_hits_TYPE, self.states_machine.search_hits_IDCODE, self.states_machine.search_hits]
+        # ordered_list = [0,0,0]
+        # print("Len of type: ", len(self.states_machine.search_hits_TYPE))
+        # print("Len of hits_IDCODE_list: ", len(self.states_machine.search_hits_IDCODE))
+        # print("Len of hits_NAME_lits: ", len(self.states_machine.search_hits))
+
+
+        
+        # arrays_len = [ len(all_hits_unordered[0]) + 0.1, len(all_hits_unordered[1]) + 0.2, len(all_hits_unordered[2]) + 0.3 ]
+        # print(arrays_len)
+        # arrays_len.sort()
+        # print(str(arrays_len))
+
+
+        search_results = []
+
+        for hit_TYPE in self.states_machine.search_hits_TYPE:
+            for hit_IDCODE in self.states_machine.search_hits_IDCODE:
+                for hit_NAME in self.states_machine.search_hits:
+                    if hit_TYPE.id_code == hit_IDCODE.id_code:
+                        if hit_IDCODE.id_code == hit_NAME.id_code:
+                            search_results.append(hit_TYPE)
+
+        
+
+
+       
+
+
+        
+
+
+        
+
+        # for item in self.search_results:
+        #     for i in range(len(self.states_machine.search_hits)):
+        #         if item.id_code == self.states_machine.search_hits[i].id_code:
+        #             updated_list.append(item)
+        
+        return search_results
 
 
 
     def reset_search(self):
-        self.states_machine.search_hits      = self.entrepot.get_items_dynamic()
+        self.states_machine.search_hits         = self.entrepot.get_items_dynamic()
+        self.states_machine.search_hits_IDCODE  = self.entrepot.get_items_dynamic()
+        self.states_machine.search_hits_TYPE    = self.entrepot.get_items_dynamic()
+
         self.states_machine.name_item_search = ''
         self.search_type    = ''
         self.search_IDCODE  = ''
@@ -54,31 +91,47 @@ class SearchEngine:
 
     
 
-    def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = ''):
-        # if suggested == True:
-        #     print("==== ITEMS SUGGESTED ====\n")
-        # else:
-        #     print("==== ITEMS IN STOCK ====\n")
+    def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = '', main_menu = False):
         
-
         print(header_msg)
         print(sub_head_msg)
 
 
-
-        for item in self.search_results:
-            item.printItem()
+        if main_menu == True:
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
+            correction_spaces = 17
+            for space in range(os.get_terminal_size().lines - correction_spaces): 
+                print('')
+        else:
+            for item in self.search_results:
+                item.printItem()
         
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
-        correction_spaces = 16
-        for space in range(os.get_terminal_size().lines - len(self.search_results) - correction_spaces): 
-            print('')
+            # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
+            correction_spaces = 18
+            for space in range(os.get_terminal_size().lines - len(self.search_results) - correction_spaces): 
+                print('')
 
+        if main_menu == False:
+            print("" + str(len(self.states_machine.search_hits)) + " results found...\n")
+        else:
+            print('\n')
+        
+        if self.search_type == '':
+            self.states_machine.search_hits_TYPE    = self.entrepot.get_items_dynamic()
+        if self.search_IDCODE == '':
+            self.states_machine.search_hits_IDCODE  = self.entrepot.get_items_dynamic()
+        if self.search_name == '':
+            self.states_machine.search_hits         = self.entrepot.get_items_dynamic()
+
+
+
+        
         print("Searching: ")
         print("            TYPE : " + self.search_type  )
         print("          IDCODE : " + self.search_IDCODE)
         print("            NAME : " + self.search_name  )
-        print("\nSelect a search filter")
+        
+        print("Select a search filter")
         print("     Search by type [1]")
         print("     Search by ID   [2]")
         print("     Search by name [3]")
@@ -101,7 +154,7 @@ class SearchEngine:
         EXIT_SEARCH = 6
         
         filter_selection = 1
-        self.get_search_filter_selection('==== ITEMS IN STOCK ====')
+        self.get_search_filter_selection('==== SEARCH MENU ====', '', True)
         print('')
         filter_selection = int(input("Select Search Parameter: "))
 
@@ -140,7 +193,7 @@ class SearchEngine:
                     self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
             
             if filter_selection == EXIT_SEARCH:
-                pass
+                return False
 
             self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
             

@@ -8,6 +8,9 @@ import csv
 import os
 import platform
 
+if(platform.system() == 'Windows'):
+		import msvcrt
+
 
 # WORKS
 def read_file(file_name = 'inventaire.txt'):
@@ -54,7 +57,11 @@ def main():
 	search_engine = SearchEngine(entrepot)
 	while True:
 		ans = search_engine.run_search_engine()
-		entrepot.remove_item(ans)
+		if ans == False:
+			print("Search was abandonned!")
+		else:
+			entrepot.remove_item(ans)
+		
 	
 	
 
@@ -63,4 +70,10 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	platform_using = platform.system()
+	if platform_using == 'Windows':
+		main()
+	else:
+		print("******CE PROGRAMME NE FONCTIONNE QUE SUR WINDOWS******")
+		print("VOUS UTILISEZ UNE VERSION DE ***"+ platform_using + "***")
+		
