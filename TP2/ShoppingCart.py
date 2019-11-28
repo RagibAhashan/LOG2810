@@ -19,7 +19,7 @@ class ShoppingCart:
     def print_cart_items(self):
         index = 1
         for item in self.cart_items:
-            print("["+ str(index) + "]" + " " + item.printItem())
+            print("["+ str(index) + "]" + " " + item.return_string_item())
             index += 1
         print("\n" + "Total items in the cart: " + str(len(self.cart_items)))
 

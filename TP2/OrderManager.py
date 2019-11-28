@@ -89,7 +89,8 @@ class OrderManager:
                 exit()
     
             # If user wants to view shopping cart
-            elif ans == "VIEW_CART":  
+            elif ans == "VIEW_CART": 
+                print("\n" + "\n" + "\n") 
                 print("VIEWING SHOPPING CART")
                 self.print_order()
                 self.confirm_order()

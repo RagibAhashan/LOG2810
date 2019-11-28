@@ -78,15 +78,16 @@ class SearchEngine:
         if print_permission ==  True:
             if main_menu == True:
                 # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
-                correction_spaces = 17
+                correction_spaces = 27
                 for space in range(os.get_terminal_size().lines - correction_spaces): 
                     print('')
             else:
                 for item in self.search_results:
                     item.printItem()
+                    
             
                 # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
-                correction_spaces = 18
+                correction_spaces = 28
                 for space in range(os.get_terminal_size().lines - len(self.search_results) - correction_spaces): 
                     print('')
 
@@ -151,6 +152,7 @@ class SearchEngine:
         EXIT_SEARCH = '0'
         
         filter_selection = '1'
+        print('\n' + '\n' + "\n")
         self.get_search_filter_selection('==== SEARCH MENU ====', '', True)
         
         filter_selection = input("\nSelect option: ")
