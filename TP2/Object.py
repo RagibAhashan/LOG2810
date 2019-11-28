@@ -6,7 +6,8 @@ class Object:
         self.weight = self.set_weight()
     
     def printItem(self):
-        print(self.type + "   " + self.id_code + "   " + self.name)
+        item_info = self.type + "   " + self.id_code + "   " + self.name
+        return item_info
         
     def set_weight(self): 
         if self.type == 'A':

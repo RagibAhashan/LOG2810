@@ -17,9 +17,11 @@ class ShoppingCart:
             print("This item is not in your cart")
 
     def print_cart_items(self):
+        index = 1
         for item in self.cart_items:
-            item.printItem()
-        print("Total items in the cart: " + str(len(self.cart_items)))
+            print("["+ str(index) + "]" + " " + item.printItem())
+            index += 1
+        print("\n" + "Total items in the cart: " + str(len(self.cart_items)))
 
     def empty_cart(self):
         self.cart_items.clear()

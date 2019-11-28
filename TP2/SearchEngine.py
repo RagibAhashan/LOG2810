@@ -1,7 +1,7 @@
 import os
 import platform
 from FiniteStateMachine import StateMachine
-
+from random import randrange
 
 
 class SearchEngine:
@@ -113,16 +113,24 @@ class SearchEngine:
         print("Searching: ")
         print("            TYPE : " + self.search_type  )
         print("          IDCODE : " + self.search_IDCODE)
-        print("            NAME : " + self.search_name  )
+        print("            NAME : " + self.search_name + "\n")
         
-        print("Select a search filter")
-        print("     Search by type   [1]")
-        print("     Search by ID     [2]")
-        print("     Search by name   [3]")
-        print("     Reset filters    [4]")
-        print("     Add item to cart [5]")
-        print("     View cart        [6]")     
-        print("     Exit Search      [7]")                                                                 
+        print("Options: ")
+        print("--- Filter Search ---")
+        print("     Search by type            [1]")
+        print("     Search by ID              [2]")
+        print("     Search by name            [3]")
+        print("     Reset filters             [4]" + "\n")
+
+        print("--- Manage Order ---")
+        print("     Add item to cart          [5]")
+        print("     Remove item(s) from cart  [6]")
+        print("     Clear cart                [7]")
+        print("     View cart                 [8]" + "\n")
+
+        print("--- Finalize Order ---")
+        print("     Confirm order             [9]")     
+        print("     Exit                      [0]")                                                                 
                                                                                                     
         
 
@@ -136,18 +144,21 @@ class SearchEngine:
         NAME   = '3'
         RESET_FILTERS = '4'
         ADD_ITEM = '5'
-        VIEW_CART = '6'
-        EXIT_SEARCH = '7'
+        REMOVE_ITEM = '6'
+        CLEAR_CART = '7'
+        VIEW_CART = '8'
+        CONFIRM_ORDER = '9'
+        EXIT_SEARCH = '0'
         
         filter_selection = '1'
         self.get_search_filter_selection('==== SEARCH MENU ====', '', True)
         
-        filter_selection = input("\nSelect Search Parameter: ")
+        filter_selection = input("\nSelect option: ")
 
         first_searched_activation = False
         print_permission = False
 
-        acceptable_inputs = ['1','2','3','4','5','6','7']
+        acceptable_inputs = ['1','2','3','4','5','6','7','8','9', '0']
 
         while True:
             if filter_selection == TYPE:
@@ -186,6 +197,7 @@ class SearchEngine:
 
             
             if (filter_selection) == ADD_ITEM:
+                should_add = True
                 if len(self.search_results) == 1:
                     print_permission = False
                     item = self.search_results[0]
@@ -195,16 +207,22 @@ class SearchEngine:
                     self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
             
             if (filter_selection) == VIEW_CART:
-                return True
+                return "VIEW_CART"
+            
+            if (filter_selection) == REMOVE_ITEM:
+                return False
+
+            if (filter_selection) == CLEAR_CART:
+                return "CLEAR_CART"
 
             if (filter_selection) == EXIT_SEARCH:
-                return False
+                return "EXIT_SEARCH"
 
             self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
 
 
             
-            filter_selection = str(input("\nSelect Search Parameter: "))
+            filter_selection = str(input("\nSelect option: "))
             if  self.search_type == '' and self.search_IDCODE == '' and self.search_name == '':
                 print_permission = False
 
