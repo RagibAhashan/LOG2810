@@ -19,7 +19,7 @@ class ShoppingCart:
     def print_cart_items(self):
         for item in self.cart_items:
             item.printItem()
-        print("Total items in the cart: " + len(self.cart_items))
+        print("Total items in the cart: " + str(len(self.cart_items)))
 
     def empty_cart(self):
         self.cart_items.clear()

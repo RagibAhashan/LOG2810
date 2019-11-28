@@ -116,12 +116,13 @@ class SearchEngine:
         print("            NAME : " + self.search_name  )
         
         print("Select a search filter")
-        print("     Search by type [1]")
-        print("     Search by ID   [2]")
-        print("     Search by name [3]")
-        print("     Reset filters  [4]")
-        print("     Confirm Search [5]")
-        print("     Exit Search    [6]")                                                                 
+        print("     Search by type   [1]")
+        print("     Search by ID     [2]")
+        print("     Search by name   [3]")
+        print("     Reset filters    [4]")
+        print("     Add item to cart [5]")
+        print("     View cart        [6]")     
+        print("     Exit Search      [7]")                                                                 
                                                                                                     
         
 
@@ -134,8 +135,9 @@ class SearchEngine:
         IDCODE = '2'
         NAME   = '3'
         RESET_FILTERS = '4'
-        CONFIRM_SEARCH = '5'
-        EXIT_SEARCH = '6'
+        ADD_ITEM = '5'
+        VIEW_CART = '6'
+        EXIT_SEARCH = '7'
         
         filter_selection = '1'
         self.get_search_filter_selection('==== SEARCH MENU ====', '', True)
@@ -145,7 +147,7 @@ class SearchEngine:
         first_searched_activation = False
         print_permission = False
 
-        acceptable_inputs = ['1','2','3','4','5']
+        acceptable_inputs = ['1','2','3','4','5','6','7']
 
         while True:
             if filter_selection == TYPE:
@@ -181,12 +183,9 @@ class SearchEngine:
                 print_permission = False
                 self.get_search_filter_selection('==== ITEMS IN STOCK ====', '', print_permission)
                 return self.run_search_engine()
-                
-
-
 
             
-            if (filter_selection) == CONFIRM_SEARCH:
+            if (filter_selection) == ADD_ITEM:
                 if len(self.search_results) == 1:
                     print_permission = False
                     item = self.search_results[0]
@@ -195,6 +194,9 @@ class SearchEngine:
                 else:
                     self.get_search_filter_selection('==== ITEMS SUGGESTED ====', 'CANNOT SELECT MORE THAN TWO ITEMS!')
             
+            if (filter_selection) == VIEW_CART:
+                return True
+
             if (filter_selection) == EXIT_SEARCH:
                 return False
 

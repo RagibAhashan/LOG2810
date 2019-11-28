@@ -1,5 +1,6 @@
 from Object import Object
 from ShoppingCart import ShoppingCart
+import time
 
 class OrderManager:
     def __init__(self, entrepot, search_engine, shopping_cart):
@@ -9,12 +10,11 @@ class OrderManager:
 
     def add_item(self, item):
         self.shopping_cart.add_to_cart(item)
-        self.remove_item(item)
 
     def remove_item(self, item):
-        self.shopping_cart.remove_item(item)
+        self.shopping_cart.remove_from_cart(item)
         
-    def print_order(self):
+    def print_orders(self):
         self.shopping_cart.print_cart_items()
 
 
@@ -29,17 +29,42 @@ class OrderManager:
             print("Your cart is too heavy! Please restart.")
             return False
 
+    #### ADD DETAILS
     def confirm_order(self):
-        pass
+        checkout = input("Would you like to checkout? Type '1' for YES and '2' for NO : ")
+        if checkout == '1':
+           # print('\n'+ '\n' + '\n' +'\n')
+            print("Thank you for your order(s)!")
+            print("Here's a summary of your orders: ")
+            self.print_orders()
+            exit()
+        elif checkout == '2':
+            print("Alright thank you! You may make another order: ")
+            time.sleep(2.5)
+            return True
 
+        else:
+            print("Not a valid answer...")
+            self.confirm_order()
+
+    def hide_order(self):
+        pass
 
     def run_order_manager(self):
         while True:
             ans = self.search_engine.run_search_engine()
-
-            self.add_item(ans)
-
+            # If user wants to exit search
             if ans == False:
                 print("Search was abandonned!")
+                exit()
+    
+            # If user wants to view shopping cart
+            elif ans == True:  
+                print("VIEWING SHOPPING CART")
+                self.print_orders()
+                self.confirm_order()
+            
+            # If user wants to place orders
             else:
-                entrepot.remove_item(ans)
+                self.add_item(ans)
+                self.entrepot.remove_item(ans)
