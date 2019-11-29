@@ -16,7 +16,7 @@ class Vertex:
     #########################################################################################
     def printVertex(self):
         print_message = "L'inventaire du Noeud #" + self.id + ": [A, B, C] = "
-        print_message += "["+self.numberObjectsA + ", "+ self.numberObjectsA + ", " + self.numberObjectsA+"]"
+        print_message += "[" + self.numberObjectsA + ", " + self.numberObjectsB + ", " + self.numberObjectsC + "]"
         voisins_array = self.get_neighbors_distances()
         print_message += ".\nLes voisins de ce Noeud sont: \n"
         

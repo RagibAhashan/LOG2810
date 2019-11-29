@@ -13,7 +13,6 @@ from Arc import Arc
 from Vertex import Vertex
 from commande import CommandManager
 from Graph import Graph
-#from Dijkstra import printPaths, compute_fastest_paths_dijstra
 from drone import Drone
 from flightManager import FlightManager
 
@@ -213,7 +212,5 @@ def main():
 			print("Exiting program.")
 			break
 	
-
-main()
-
-
+if __name__ == "__main__":
+	main()
