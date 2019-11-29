@@ -52,32 +52,22 @@ def print_items(items):
 
 
 def main():
-	#items_store = read_file('Inventaire_grosFichier.txt')
-	items_store = read_file()
+	#items_store = read_file()
+	items_store = read_file('inventaire.txt')
 
 	entrepot = Entrepot(items_store)
 	
 	search_engine = SearchEngine(entrepot)
 
-	
-
 	shopping_cart = ShoppingCart()
 
-	orders = OrderManager(items_store, search_engine, shopping_cart)
-	print(search_engine.run_search_engine().printItem())
+	orders = OrderManager(entrepot, search_engine, shopping_cart)
+
+	orders.run_order_manager()
+
+	#print(search_engine.run_search_engine().printItem())
 	
-	# while True:
-	# 	ans = search_engine.run_search_engine()
 
-		
-	# 	orders.add_item(ans)
-		
-	# 	entrepot.remove_item(ans)
-
-	# 	if ans == False:
-	# 		print("Search was abandonned!")
-	# 	else:
-	# 		entrepot.remove_item(ans)
 		
 
 
@@ -85,7 +75,4 @@ def main():
 
 
 if __name__ == '__main__':
-	platform_using = platform.system()
 	main()
-
-		

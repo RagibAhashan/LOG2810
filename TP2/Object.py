@@ -8,6 +8,11 @@ class Object:
     def printItem(self):
         print(self.type + "   " + self.id_code + "   " + self.name)
         
+
+    def return_string_item(self):
+        item_info = self.type + "   " + self.id_code + "   " + self.name
+        return item_info
+        
     def set_weight(self): 
         if self.type == 'A':
             self.weight = 1

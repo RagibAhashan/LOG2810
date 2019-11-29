@@ -8,7 +8,8 @@ class Entrepot:
     def remove_item(self, item):
         self._dynamic_list.remove(item)
 
-
+    def add_item(self, item):
+        self._dynamic_list.append(item)
 
     def getItems(self):
         return self._items_list
