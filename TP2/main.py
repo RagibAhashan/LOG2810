@@ -52,8 +52,8 @@ def print_items(items):
 
 
 def main():
-	items_store = read_file('Inventaire_grosFichier.txt')
-	#items_store = read_file()
+	#items_store = read_file('Inventaire_grosFichier.txt')
+	items_store = read_file()
 
 	entrepot = Entrepot(items_store)
 	
