@@ -7,7 +7,7 @@ class Automate:
         self.type_item  = type_item
 
         self.name_chemin = [State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)]
-        self.id_chemin   = []
+        self.id_chemin   = [State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)]
         self.type_chemin = State('T1', type_item, ['1'], True)
         self.assemble_states()
 
@@ -54,12 +54,28 @@ class Automate:
 
     
 
-    def transition_state_function(self, user_input, current_state):
+    def transition_state_function(self, user_input, current_state, mode = 'NAME'):
         first_state_terminal = 0
-        if self.name_chemin[current_state].possible_inputs[0] == user_input:
-            return current_state + 1
-        else:
-            return first_state_terminal
+        if mode == 'NAME':
+            if self.name_chemin[current_state].possible_inputs[0] == user_input:
+                return current_state + 1
+            else:
+                return first_state_terminal
+        
+        
+        if mode == 'IDCODE':
+            if current_state == 0:
+                if self.id_chemin[current_state].possible_inputs[1] == user_input:
+                    return current_state + 1
+                else:
+                    return first_state_terminal
+
+            else:
+                if self.id_chemin[current_state].possible_inputs[0] == user_input:
+                    return current_state + 1
+                else:
+                    return first_state_terminal
+
 
 
 
@@ -81,7 +97,7 @@ class Automate:
 
             
             for I in langage:
-                current_state = self.transition_state_function(I, current_state)
+                current_state = self.transition_state_function(I, current_state, mode)
             
             if self.name_chemin[current_state].isTerminalState() == True and current_state != 0:
                 is_a_langage_in_automate = True
@@ -94,26 +110,43 @@ class Automate:
 
 
         elif mode == 'IDCODE':
-            return is_a_langage_in_automate
+            if len(langage) == 1 or len(self.ID_CODE) == 1:
+                if self.id_chemin[current_state].possible_inputs[1] == langage:
+                    return True
+                else:
+                    return False
 
-        elif mode == 'TYPE':
+            
+            for I in langage:
+                current_state = self.transition_state_function(I, current_state, mode)
+            
+            if self.id_chemin[current_state].isTerminalState() == True and current_state != 0:
+                is_a_langage_in_automate = True
+
+
             return is_a_langage_in_automate
-        
+            
+        elif mode == 'TYPE':
+            if self.id_chemin[current_state].possible_inputs[2] == langage:
+                return True
+            else:
+                return False
+            
         else:
             print("The mode '" + mode + "' is NOT ACCEPTED!")
             return is_a_langage_in_automate
 
 
-a = Automate('ami', '111111', 'B', '1')
+# a = Automate('ami', '111111', 'B', '1')
 
-print()
+# print()
 
 
 
-print(a.verify_langage('ami','NAME'))
+# print(a.verify_langage('ami','NAME'))
 
-print(a.verify_langage('B','TYPE'))
-print(a.verify_langage('111111','IDCODE'))
+# print(a.verify_langage('B','TYPE'))
+# print(a.verify_langage('111111','IDCODE'))
 
 
 

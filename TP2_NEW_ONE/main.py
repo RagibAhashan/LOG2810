@@ -16,21 +16,21 @@ import platform
 # WORKS
 def read_file(file_name = 'inventaire.txt'):
 	items_list = []
+	automate_list = []
 	try:
 		with open(file_name) as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=' ')
+			line_counter = 0
 			for line in csv_reader:
 				name = str(line[0])
 				id_code = str(line[1])
 				type_object = str(line[2])
 
-				
+				automate = Automate(line_counter, id_code, type_object, line_counter)
+				line_counter += 1
+				automate_list.append(automate)
 
-
-
-
-
-
+			
 
 
 				item = Object(name, id_code, type_object)
@@ -38,23 +38,25 @@ def read_file(file_name = 'inventaire.txt'):
 	except Exception as e:
 		print("Erreur de lecture du fichier! Le fichier '" + file_name + "' ne peut pas être lu.")
 
-	return items_list
+	return items_list, automate_list
 
 
 
 
 def main():
-	items_store = read_file('inventaire.txt')
+	items_store, automate_list = read_file('inventaire.txt')
 
-	entrepot = Entrepot(items_store)
 	
-	search_engine = SearchEngine(entrepot)
 
-	shopping_cart = ShoppingCart()
+	# entrepot = Entrepot(items_store)
+	
+	# search_engine = SearchEngine(entrepot)
 
-	orders = OrderManager(entrepot, search_engine, shopping_cart)
+	# shopping_cart = ShoppingCart()
 
-	orders.run_order_manager()
+	# orders = OrderManager(entrepot, search_engine, shopping_cart)
+
+	# orders.run_order_manager()
 
 	
 
