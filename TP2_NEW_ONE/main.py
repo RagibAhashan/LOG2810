@@ -61,19 +61,48 @@ def main():
 	search_engine = SearchEngine(automate_list)
 	#search_engine.run_search_engine()
 
-
-	n = search_engine.search_item_by_name('b')
-
-
-
-	for item in n:
-		item.printAutomate()
-
 	
-
 	
-
+	
+	
+	while True:
+		print("Results: ")
 		
+		
+		ans = str(input("Search code: "))
+		search_engine.search_item_by_IDCODE(ans)
+		
+		
+		ans = str(input("Search name: "))
+		search_engine.search_item_by_name(ans)
+		
+		
+		ans = str(input("Search type: "))
+		search_engine.search_item_by_type(ans)
+		
+		
+		search_engine.update_search_results()
+
+		for item in search_engine.search_hits_IDCODE:
+			item.printAutomate()
+
+		print()
+		print()
+		for item in search_engine.search_hits_name:
+			item.printAutomate()
+
+		print()
+		print()
+		for item in search_engine.search_hits_TYPE:
+			item.printAutomate()
+		print()
+		print()
+
+		# for item in search_engine.list_hits:
+		# 	item.printAutomate()
+	
+
+	
 
 
 

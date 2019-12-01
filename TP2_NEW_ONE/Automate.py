@@ -97,7 +97,7 @@ class Automate:
             #     else:
             #         return False
 
-            if len(langage) < len(self.item_name):
+            if len(langage) <= len(self.item_name):
                 i = 0
                 for I in langage:
                     
@@ -121,39 +121,63 @@ class Automate:
                 return False
 
 
-            if len(langage) == len(self.item_name):
-                for I in langage:
-                    current_state = self.transition_state_function(I, current_state, mode)
-                    if current_state == 0:
-                        return False
+            # if len(langage) == len(self.item_name):
+            #     for I in langage:
+            #         current_state = self.transition_state_function(I, current_state, mode)
+            #         if current_state == 0:
+            #             return False
                 
                 
-                if self.name_chemin[current_state].isTerminalState() == True and current_state != 0:
-                    is_a_langage_in_automate = True
+            #     if self.name_chemin[current_state].isTerminalState() == True and current_state != 0:
+            #         is_a_langage_in_automate = True
 
 
-                return is_a_langage_in_automate
+            #     return is_a_langage_in_automate
         
 
 
 
 
         elif mode == 'IDCODE':
-            if len(langage) == 1 or len(self.ID_CODE) == 1:
-                if self.id_chemin[current_state].possible_inputs[1] == langage:
-                    return True
-                else:
-                    return False
+            if len(langage) <= len(self.ID_CODE):
+                i = 0
+                for I in langage:
+                    
+                    current_state = self.transition_state_function(I, current_state, mode)
+                    i += 1
+                    if current_state == 0:
+                        return False
+
+
+                for j in range(i, len(self.ID_CODE)):
+                    current_state = self.transition_state_function(self.ID_CODE[j], current_state, mode)
+
+
+                if self.id_chemin[current_state].isTerminalState() == True and current_state != 0:
+                    is_a_langage_in_automate = True
+                return is_a_langage_in_automate
+
+
+
+            if len(langage) > len(self.item_name):
+                return False
+
+
+        #     if len(langage) == 1 or len(self.ID_CODE) == 1:
+        #         if self.id_chemin[current_state].possible_inputs[1] == langage:
+        #             return True
+        #         else:
+        #             return False
 
             
-            for I in langage:
-                current_state = self.transition_state_function(I, current_state, mode)
+        #     for I in langage:
+        #         current_state = self.transition_state_function(I, current_state, mode)
             
-            if self.id_chemin[current_state].isTerminalState() == True and current_state != 0:
-                is_a_langage_in_automate = True
+        #     if self.id_chemin[current_state].isTerminalState() == True and current_state != 0:
+        #         is_a_langage_in_automate = True
 
 
-            return is_a_langage_in_automate
+        #     return is_a_langage_in_automate
             
         elif mode == 'TYPE':
             if self.id_chemin[current_state].possible_inputs[2] == langage:

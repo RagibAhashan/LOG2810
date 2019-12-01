@@ -15,12 +15,17 @@ class SearchEngine:
         self.liste_automates = automates_liste
         self.list_hits       = []
 
+        self.search_hits_name   = automates_liste
+        self.search_hits_TYPE   = automates_liste
+        self.search_hits_IDCODE = automates_liste
+
+
     def search_item_by_type(self, langage):
         list_hits = []
         for item in self.liste_automates:
             if item.verify_langage(langage, 'TYPE') == True:
                 list_hits.append(item)
-        return list_hits
+        self.search_hits_TYPE = list_hits
 
 
     def search_item_by_IDCODE(self, langage):
@@ -28,7 +33,7 @@ class SearchEngine:
         for item in self.liste_automates:
             if item.verify_langage(langage, 'IDCODE') == True:
                 list_hits.append(item)
-        return list_hits
+        self.search_hits_IDCODE = list_hits
 
 
     def search_item_by_name(self, langage):
@@ -36,11 +41,32 @@ class SearchEngine:
         for item in self.liste_automates:
             if item.verify_langage(langage, 'NAME') == True:
                 list_hits.append(item)
-        return list_hits
+        self.search_hits_name = list_hits
 
 
     def update_search_results(self):
-        pass
+        search_results = []
+        recent_results = []
+
+        if  self.search_type == '' and self.search_IDCODE == '' and self.search_name == '':
+            self.number_results_found = 0
+            return search_results
+
+        for recent_hit in self.seach_hits_TYPE:
+            for hit_IDCODE in self.seach_hits_IDCODE:
+                if recent_hit.id_code == hit_IDCODE.id_code:
+                    recent_results.append(recent_hit)
+
+            
+
+        for recent_hit in recent_results:
+            for hit_NAME in self.seach_hits_name:
+                if recent_hit.id_code == hit_NAME.id_code:
+                    search_results.append(recent_hit)
+            
+        self.number_results_found = len(search_results)
+        self.list_hits = search_results
+        return search_results
 
 
 
@@ -55,7 +81,10 @@ class SearchEngine:
         print(sub_head_msg)
 
         
-        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.                                                                                      ##
+        # Pas essentiel a l'implementation de notre automate. C'est pour formatter l'affichage.     
+        #
+        
+                                                                                        ##
         correction_spaces = 27
         for space in range(os.get_terminal_size().lines - correction_spaces): 
             print('')
@@ -123,6 +152,8 @@ class SearchEngine:
         while True:
             if filter_selection == TYPE:
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_permission)
+                langage = str(input("Search by type: "))
+                self.search_item_by_type(langage)
 
                 
                 print_permission = True
@@ -130,12 +161,16 @@ class SearchEngine:
                 
             
             if (filter_selection) == IDCODE:
+                langage = str(input("Search by type: "))
+                self.search_item_by_IDCODE(langage)
                 
                 
                 print_permission = True
 
 
             if (filter_selection) == NAME:
+                langage = str(input("Search by type: "))
+                self.search_item_by_name(langage)
                 
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_permission)
                 
