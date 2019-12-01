@@ -26,9 +26,10 @@ def read_file(file_name = 'inventaire.txt'):
 				id_code = str(line[1])
 				type_object = str(line[2])
 
-				automate = Automate(line_counter, id_code, type_object, line_counter)
+				automate = Automate(name, id_code, type_object, str(line_counter))
 				line_counter += 1
 				automate_list.append(automate)
+				
 
 			
 
@@ -44,19 +45,31 @@ def read_file(file_name = 'inventaire.txt'):
 
 
 def main():
+	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
 	items_store, automate_list = read_file('inventaire.txt')
 
-	
+	#a = Automate('ami', '111111', 'B', '0')
 
+
+
+	for item in automate_list:
+		item.printAutomate()
+
+	print('\n\n\n\n\n')
 	# entrepot = Entrepot(items_store)
 	
-	# search_engine = SearchEngine(entrepot)
+	search_engine = SearchEngine(automate_list)
+	#search_engine.run_search_engine()
 
-	# shopping_cart = ShoppingCart()
 
-	# orders = OrderManager(entrepot, search_engine, shopping_cart)
+	n = search_engine.search_item_by_name('b')
 
-	# orders.run_order_manager()
+
+
+	for item in n:
+		item.printAutomate()
+
+	
 
 	
 
