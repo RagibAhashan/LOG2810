@@ -193,8 +193,8 @@ class Automate:
 # a = Automate('ami', '546789', 'A', '1')
 
 # print()
-# print(a.verify_langage('ami','NAME'))
-# print(a.verify_langage('546','IDCODE'))
-# print(a.verify_langage('A','TYPE'))
+# print(a.verify_langage('asd','NAME'))
+# print(a.verify_langage('asd','IDCODE'))
+# print(a.verify_langage('asd','TYPE'))
 
 

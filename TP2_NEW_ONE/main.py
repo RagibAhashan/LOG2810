@@ -38,67 +38,86 @@ def read_file(file_name = 'inventaire.txt'):
 
 
 
-
 def main():
-	items_store, automate_list = read_file('Inventaire_grosFichier.txt')
-	#items_store, automate_list = read_file('inventaire.txt')
+	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
+	items_store, automate_list = read_file('inventaire.txt')
 
 	#a = Automate('ami', '111111', 'B', '0')
 
 
 
-	for item in automate_list:
-		item.printAutomate()
+	# for item in automate_list:
+	# 	item.printAutomate()
 
-	print('\n\n\n\n\n')
-	# entrepot = Entrepot(items_store)
+	# print('\n\n\n\n\n')
+	# # entrepot = Entrepot(items_store)
+
+
 	
 	search_engine = SearchEngine(automate_list)
-	#search_engine.run_search_engine()
+	
+
+	item = search_engine.execute_search()
+
+	print('\n\n\n\n\n')
+	
+	item.printAutomate()
+	print('\n\n\n\n\n')
+
+	for item in search_engine.liste_automates:
+		item.printAutomate()
+
 
 	
-	
-	
-	
-	while True:
-		print("Results: ")
-		
-		
-		ans = str(input("Search code: "))
-		search_engine.search_item_by_IDCODE(ans)
-		
-		
-		ans = str(input("Search name: "))
-		search_engine.search_item_by_name(ans)
-		
-		
-		ans = str(input("Search type: "))
-		search_engine.search_item_by_type(ans)
-		
-		
-		search_engine.update_search_results()
-		print()
-		print('ICODE:')
-		for item in search_engine.search_hits_IDCODE:
-			item.printAutomate()
 
-		print()
-		print('NAME:')
-		for item in search_engine.search_hits_name:
-			item.printAutomate()
+	# automate_list.remove(automate_list[2])
+	
 
-		print()
-		print('TYPE:')
-		for item in search_engine.search_hits_TYPE:
-			item.printAutomate()
-		print()
-		print()
+	# for item in automate_list:
+	# 	item.printAutomate()
+	
+	
+	
+	
+	# while True:
+	# 	print("Results: ")
+		
+		
+	# 	search_engine.search_IDCODE = str(input("Search code: "))
+	# 	search_engine.search_item_by_IDCODE(search_engine.search_IDCODE)
+		
+		
+	# 	search_engine.search_name = str(input("Search name: "))
+	# 	search_engine.search_item_by_name(search_engine.search_name)
+		
+		
+	# 	search_engine.search_type = str(input("Search type: "))
+	# 	search_engine.search_item_by_type(search_engine.search_type)
+		
+		
+	# 	search_engine.update_search_results()
+	# 	print()
+	# 	print('IDCODE:')
+	# 	for item in search_engine.search_hits_IDCODE:
+	# 		item.printAutomate()
+
+	# 	print()
+	# 	print('NAME:')
+	# 	for item in search_engine.search_hits_name:
+	# 		item.printAutomate()
+
+	# 	print()
+	# 	print('TYPE:')
+	# 	for item in search_engine.search_hits_TYPE:
+	# 		item.printAutomate()
+	# 	print()
+	# 	print()
 
 	
-		search_engine.update_search_results()
+		# search_engine.update_search_results()
 		
-		print(search_engine.number_results_found)
-		search_engine.get_search_filter_selection()
+		# print(search_engine.number_results_found)
+		# search_engine.get_search_filter_selection()
 		# for item in search_engine.list_hits:
 		# 	item.printAutomate()
 	

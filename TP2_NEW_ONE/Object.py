@@ -1,5 +1,5 @@
 class Object:
-    def __init__(self, name, id_code, type_item):
+    def __init__(self, name='', id_code='', type_item=''):
         self.type = type_item
         self.id_code = id_code
         self.name = name
