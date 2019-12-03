@@ -190,17 +190,11 @@ class Automate:
             return is_a_langage_in_automate
 
 
-# a = Automate('helicoptere', '546789', 'A', '1')
+# a = Automate('ami', '546789', 'A', '1')
 
 # print()
-
-
-
-# print(a.verify_langage('helicoptere','NAME'))
-
-
+# print(a.verify_langage('ami','NAME'))
 # print(a.verify_langage('546','IDCODE'))
-
 # print(a.verify_langage('A','TYPE'))
 
 

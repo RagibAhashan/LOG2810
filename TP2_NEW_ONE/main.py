@@ -29,11 +29,6 @@ def read_file(file_name = 'inventaire.txt'):
 				automate = Automate(name, id_code, type_object, str(line_counter))
 				line_counter += 1
 				automate_list.append(automate)
-				
-
-			
-
-
 				item = Object(name, id_code, type_object)
 				items_list.append(item)
 	except Exception as e:
@@ -45,8 +40,8 @@ def read_file(file_name = 'inventaire.txt'):
 
 
 def main():
-	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
-	items_store, automate_list = read_file('inventaire.txt')
+	items_store, automate_list = read_file('Inventaire_grosFichier.txt')
+	#items_store, automate_list = read_file('inventaire.txt')
 
 	#a = Automate('ami', '111111', 'B', '0')
 
@@ -82,26 +77,30 @@ def main():
 		
 		
 		search_engine.update_search_results()
-
+		print()
+		print('ICODE:')
 		for item in search_engine.search_hits_IDCODE:
 			item.printAutomate()
 
 		print()
-		print()
+		print('NAME:')
 		for item in search_engine.search_hits_name:
 			item.printAutomate()
 
 		print()
-		print()
+		print('TYPE:')
 		for item in search_engine.search_hits_TYPE:
 			item.printAutomate()
 		print()
 		print()
 
+	
+		search_engine.update_search_results()
+		
+		print(search_engine.number_results_found)
+		search_engine.get_search_filter_selection()
 		# for item in search_engine.list_hits:
 		# 	item.printAutomate()
-	
-
 	
 
 
