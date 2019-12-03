@@ -76,7 +76,15 @@ class SearchEngine:
 
 
     def reset_search(self):
-        pass
+        self.search_results       = 0
+        self.number_results_found = 0
+        self.search_type          = ''
+        self.search_IDCODE        = ''
+        self.search_name          = ''
+        self.list_hits            = []
+        self.search_hits_name     = self.liste_automates
+        self.search_hits_TYPE     = self.liste_automates
+        self.search_hits_IDCODE   = self.liste_automates
 
     
 
@@ -102,6 +110,14 @@ class SearchEngine:
             print('')
             
         
+        item_suggested = '[ITEM SELECTED: NONE (Must select ONE item)]'
+
+        if len(self.list_hits) == 1:
+            item_suggested = '[ITEM SELECTED: '
+            item_suggested += self.list_hits[0].ID_CODE
+            item_suggested += '  ' + self.list_hits[0].item_name
+            item_suggested += '  ' + self.list_hits[0].type_item + ']'
+
         print("Searching: ")
         print("            TYPE : " + self.search_type  )
         print("          IDCODE : " + self.search_IDCODE)
@@ -113,7 +129,7 @@ class SearchEngine:
         print("     Search by ID              [2]")
         print("     Search by name            [3]")
         print("     Reset filters             [4]")
-        print("     Comfirm Item              [5]" + "\n")
+        print("     Comfirm Item              [5]   " + item_suggested + "\n")
 
                                                                                                     
         
@@ -123,10 +139,10 @@ class SearchEngine:
     def execute_search(self):
         
         # States
-        TYPE   = '1'
-        IDCODE = '2'
-        NAME   = '3'
-        RESET_FILTERS = '4'
+        TYPE           = '1'
+        IDCODE         = '2'
+        NAME           = '3'
+        RESET_FILTERS  = '4'
         COMFIRM_OBJECT = '5'
         
         
@@ -141,6 +157,7 @@ class SearchEngine:
             if filter_selection == TYPE:
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, False)
                 langage = str(input("Search by type: "))
+                print('     \n     Loading results...')
                 self.search_item_by_type(langage)
                 self.update_search_results()
                 self.search_type = langage
@@ -149,39 +166,34 @@ class SearchEngine:
 
             if filter_selection == IDCODE:
                 langage = str(input("Search by IDCODE: "))
+                print('     \n     Loading results...')
                 self.search_item_by_IDCODE(langage)
                 self.update_search_results()
                 self.search_IDCODE = langage
                 
-                
-                
-
 
             if filter_selection == NAME:
                 self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, False)
                 langage = str(input("Search by NAME: "))
+                print('     \n     Loading results...')
                 self.search_item_by_name(langage)
                 self.update_search_results()
                 self.search_name = langage
 
             if filter_selection == RESET_FILTERS:
-                pass
+                self.reset_search()
         
             if filter_selection == COMFIRM_OBJECT:
                 if len(self.list_hits) == 1:
-                    self.reset_search()
                     item = self.list_hits[0]
                     self.liste_automates.remove(item)
+                    self.reset_search()
                     return item
                 else:
                     input("You must select one item! Press 'Enter' to continue.")
 
-                
 
             self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
-
-
-            
             filter_selection = str(input("\nSelect option: "))
             
 

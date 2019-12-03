@@ -32,15 +32,15 @@ def read_file(file_name = 'inventaire.txt'):
 				item = Object(name, id_code, type_object)
 				items_list.append(item)
 	except Exception as e:
-		print("Erreur de lecture du fichier! Le fichier '" + file_name + "' ne peut pas être lu.")
+		print("Error reading this file! Le fichier '" + file_name + "' ne peut pas être lu.")
 
 	return items_list, automate_list
 
 
 
 def main():
-	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
-	items_store, automate_list = read_file('inventaire.txt')
+	items_store, automate_list = read_file('Inventaire_grosFichier.txt')
+	#items_store, automate_list = read_file('inventaire.txt')
 
 	#a = Automate('ami', '111111', 'B', '0')
 
@@ -52,23 +52,31 @@ def main():
 	# print('\n\n\n\n\n')
 	# # entrepot = Entrepot(items_store)
 
-
-	
 	search_engine = SearchEngine(automate_list)
-	
+	while len(search_engine.liste_automates) != 0:
+		search_engine = SearchEngine(automate_list)
+		item = search_engine.execute_search()
 
-	item = search_engine.execute_search()
-
-	print('\n\n\n\n\n')
-	
-	item.printAutomate()
-	print('\n\n\n\n\n')
-
-	for item in search_engine.liste_automates:
+		print('\n\n\n\n\n')
+		
 		item.printAutomate()
+		print('\n\n\n\n\n')
+
+		# for item in search_engine.liste_automates:
+		# 	item.printAutomate()
 
 
-	
+		item = search_engine.execute_search()
+
+		print('\n\n\n\n\n')
+		
+		item.printAutomate()
+		print('\n\n\n\n\n')
+
+		# for item in search_engine.liste_automates:
+		# 	item.printAutomate()
+
+	print("VIDE!")
 
 	# automate_list.remove(automate_list[2])
 	
@@ -123,8 +131,21 @@ def main():
 	
 
 
+def pritam():
+	items_store, automate_list = read_file('inventaire.txt')
+
+	search_engine = SearchEngine(automate_list)
+	item = search_engine.execute_search()
+
+	shopping_cart = ShoppingCart()
+	order = OrderManager(automate_list, shopping_cart)
 
 
 
 if __name__ == '__main__':
-	main()
+
+	a = input("r ou p")
+	if a == 'r':
+		main()
+	else:
+		pritam()

@@ -1,11 +1,12 @@
 from Object import Object
 from ShoppingCart import ShoppingCart
 import time
+from SearchEngine import SearchEngine
 
 class OrderManager:
-    def __init__(self, entrepot, search_engine, shopping_cart):
-        self.entrepot      = entrepot
-        self.search_engine  = search_engine
+    def __init__(self, entrepot, shopping_cart):
+        self.entrepot       = entrepot
+        self.search_engine  = SearchEngine(entrepot)        # Composition
         self.shopping_cart  = shopping_cart
         self._n_orders = 0
 
