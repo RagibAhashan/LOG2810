@@ -13,12 +13,17 @@ class ShoppingCart:
 
     #############################################################################################
     #   methode add_to_cart: ajoute un item au panier, et ajuste son poids
-    #	params [self]
+    #	params [self, item(Automate)]
     #############################################################################################
     def add_to_cart(self, item):
         self.cart_items.append(item)
         self.weight_of_items += item.weight
 
+
+    #############################################################################################
+    #   methode remove_from_cart: enlève un item du panier, et ajuste son poids
+    #	params [self, item(Automate)]
+    #############################################################################################
     def remove_from_cart(self, item):
         if item in self.cart_items:
             self.weight_of_items -= item.weight
@@ -27,6 +32,11 @@ class ShoppingCart:
             print("This item is not in your cart")
 
 
+    #############################################################################################
+    #   methode remove_an_item: méthode permettant à l'utilisateur de 
+    #                             choisir des items à enlever du panier
+    #	params [self]
+    #############################################################################################
     def remove_an_item(self):
         
         acceptable_inputs = [str(i) for i in range(len(self.cart_items) + 1)]
@@ -60,10 +70,12 @@ class ShoppingCart:
         return list_remove_items
 
 
-
+    #############################################################################################
+    #   methode print_cart_items: affiche les items (objets) dans le panier
+    #	params [self, commande_print = False]
+    #############################################################################################
     def print_cart_items(self, commande_print = False):
         
-
         index = 1
         msg_print = "\n"
         if commande_print == False:
@@ -71,8 +83,6 @@ class ShoppingCart:
         else:
             correction_lines = 10
             #print("\n   THANK YOU FOR YOUR ORDER! \n")
-
-
 
         for item in self.cart_items:
             print("[#" + str(index) + "]      " + item.info())
@@ -86,10 +96,10 @@ class ShoppingCart:
             print()
         
 
-
-
-
-
+    #############################################################################################
+    #   methode empty_cart: réinitialise le panier et ses composantes
+    #	params [self]
+    #############################################################################################
     def empty_cart(self):
         remove_items         = self.cart_items
         self.cart_items      = []

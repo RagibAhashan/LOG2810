@@ -15,7 +15,7 @@ class OrderManager:
     #############################################################################################
     #	methode remove_index_with_index: affiche les charactéristique d'un automate
     #	params [self, index(int)]
-    #   return item_to_delete(automate)
+    #   return item_to_delete(Automate)
     #############################################################################################
     def remove_item_with_index(self, index):
         item_to_delete = self.shopping_cart.cart_items[index]
@@ -41,6 +41,10 @@ class OrderManager:
     #   return True or False
     #############################################################################################
     def verify_order(self):
+        if self.shopping_cart.weight_of_items == 0:
+            print("Your shopping cart is empty!")
+            return False
+            
         if(self.shopping_cart.weight_of_items <= 25 and self.shopping_cart.weight_of_items > 0) : 
             print("Thank you for your order!")
             return True
@@ -51,7 +55,7 @@ class OrderManager:
 
     #############################################################################################
     #	methode put_back_Items_from_cart: remet l'item enlever du panier dans l'entrepot
-    #	params [self, list_items]
+    #	params [self, list_items (Automate[])
     #############################################################################################
     def put_back_items_from_cart(self, list_items):
         for item in list_items:

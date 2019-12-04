@@ -30,7 +30,7 @@ class SearchEngine:
     #############################################################################################
     #	methode search_item_by_type: cherche les items selon un type et place 
     #                                les suggestions dans une liste.
-    #	params [self, langage]
+    #	params [self, langage (String)]
     #############################################################################################
     def search_item_by_type(self, langage):
         list_hits = []
@@ -47,7 +47,7 @@ class SearchEngine:
     #############################################################################################
     #	methode search_item_by_IDCODE: cherche les items selon un id code et place 
     #                                  les suggestions dans une liste.
-    #	params [self, langage]
+    #	params [self, langage (String)]
     #############################################################################################
     def search_item_by_IDCODE(self, langage):
         list_hits = []
@@ -60,7 +60,7 @@ class SearchEngine:
     #############################################################################################
     #	methode search_item_by_name: cherche les items selon un nom et place 
     #                                les suggestions dans une liste.
-    #	params [self, langage]
+    #	params [self, langage (String)]
     #############################################################################################
     def search_item_by_name(self, langage):
         list_hits = []
@@ -127,7 +127,8 @@ class SearchEngine:
     #############################################################################################
     #	methode get_search_filter_selection: permet d'afficher les suggestions
     #                                        selon les différents filtres (type, id, nom)
-    #	params [self, langage]
+    #	params [self, header_msg = '==== ITEMS SUGGESTED ====', 
+    #           sub_head_msg = '', main_menu = False, print_permission = True]
     #############################################################################################
     def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = '', main_menu = False, print_permission = True):
         

@@ -141,6 +141,7 @@ def main():
 			if file_name != 'inventaire.txt' and file_name != 'Inventaire_grosFichier.txt':
 				alternatif = str(input("Vouliez vous lire 'inventaire.txt' au lieu? Tappez 1 pour oui" ))
 				if alternatif == '1':
+					file_name = alternatif
 					automate_list = read_file('inventaire.txt')
 					search_engine = SearchEngine(automate_list)
 					shopping_cart = ShoppingCart()
@@ -195,9 +196,9 @@ def main():
 		if automate_list == False:
 			error = 'INITIALISEZ LE PROGRAMME AVEC UN LEXIQUE'
 			print(error.center(int(os.get_terminal_size().columns-1), '*'))
-			
 		else:
-			print()
+			msg_header = "VOUS AVEZ INITIALISÉ LE PROGRAMME AVEC LE FICHIER '" + file_name + "'"
+			print(msg_header.center(int(os.get_terminal_size().columns-1), ' '))
 
 
 if __name__ == '__main__':
