@@ -1,11 +1,10 @@
 from Object import Object
-from OrderManager import OrderManager
+#from OrderManager import OrderManager
 from Entrepot import Entrepot
 from State import State
 from FiniteStateMachine import StateMachine
 from SearchEngine import SearchEngine
 from ShoppingCart import ShoppingCart
-from OrderManager import OrderManager
 from Automate     import Automate
 
 import csv
@@ -38,9 +37,9 @@ def read_file(file_name = 'inventaire.txt'):
 
 
 
-def main():
-	items_store, automate_list = read_file('Inventaire_grosFichier.txt')
-	#items_store, automate_list = read_file('inventaire.txt')
+# def main():
+	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
+	# items_store, automate_list = read_file('inventaire.txt')
 
 	#a = Automate('ami', '111111', 'B', '0')
 
@@ -52,31 +51,31 @@ def main():
 	# print('\n\n\n\n\n')
 	# # entrepot = Entrepot(items_store)
 
-	search_engine = SearchEngine(automate_list)
-	while len(search_engine.liste_automates) != 0:
-		search_engine = SearchEngine(automate_list)
-		item = search_engine.execute_search()
+	# search_engine = SearchEngine(automate_list)
+	# while len(search_engine.liste_automates) != 0:
+	# 	search_engine = SearchEngine(automate_list)
+	# 	item = search_engine.execute_search()
 
-		print('\n\n\n\n\n')
+	# 	print('\n\n\n\n\n')
 		
-		item.printAutomate()
-		print('\n\n\n\n\n')
+	# 	item.printAutomate()
+	# 	print('\n\n\n\n\n')
 
 		# for item in search_engine.liste_automates:
 		# 	item.printAutomate()
 
 
-		item = search_engine.execute_search()
+		# item = search_engine.execute_search()
 
-		print('\n\n\n\n\n')
+		# print('\n\n\n\n\n')
 		
-		item.printAutomate()
-		print('\n\n\n\n\n')
+		# item.printAutomate()
+		# print('\n\n\n\n\n')
 
 		# for item in search_engine.liste_automates:
 		# 	item.printAutomate()
 
-	print("VIDE!")
+	# print("VIDE!")
 
 	# automate_list.remove(automate_list[2])
 	
@@ -130,15 +129,25 @@ def main():
 		# 	item.printAutomate()
 	
 
+def main():
+	pass
+
 
 def pritam():
-	items_store, automate_list = read_file('inventaire.txt')
+	from OrderManager import OrderManager
+
+	a, automate_list = read_file('inventaire.txt')
+
+	# entrepot = Entrepot(automate_list)
 
 	search_engine = SearchEngine(automate_list)
-	item = search_engine.execute_search()
 
 	shopping_cart = ShoppingCart()
-	order = OrderManager(automate_list, shopping_cart)
+
+	order = OrderManager(automate_list, shopping_cart, search_engine)
+
+	order.excute_order()
+
 
 
 

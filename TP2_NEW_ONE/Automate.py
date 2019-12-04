@@ -6,16 +6,32 @@ class Automate:
         self.ID_CODE    = ID_CODE
         self.type_item  = type_item
         self.item_number = item_number
+        self.weight = 0
 
         self.name_chemin = [State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)]
         self.id_chemin   = [State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)]
         self.type_chemin = State('T1', type_item, ['1'], True)
         
         self.assemble_states() # Construit l'automate.
+        self.set_weight()
 
 
     def printAutomate(self):
         print("Type: " + self.type_item + "   IDCODE: " + self.ID_CODE + "  Name: " + self.item_name)
+
+    def info(self):
+        automate_info = "TYPE: " + self.type_item + "  IDCODE: " + self.ID_CODE + "  NAME:" + self.item_name
+        return automate_info
+    
+    def set_weight(self):
+        if self.type_item == 'A':
+            self.weight = 1
+        elif self.type_item == 'B':
+            self.weight = 3
+        elif self.type_item == 'C':
+            self.weight = 6
+        else:
+            self.weight = 0
 
     def assemble_states(self):
 
@@ -44,7 +60,6 @@ class Automate:
             self.id_chemin.append(name_state)
 
 
-    
 
     def transition_state_function(self, user_input, current_state, mode = 'NAME'):
         first_state_terminal = 0
@@ -130,7 +145,7 @@ class Automate:
 
             
         elif mode == 'TYPE':
-            if self.id_chemin[current_state].possible_inputs[2] == langage:
+            if self.id_chemin[current_state].possible_inputs[2] == langage or langage == '':
                 return True
             else:
                 return False

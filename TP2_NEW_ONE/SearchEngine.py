@@ -23,6 +23,11 @@ class SearchEngine:
         self.search_hits_TYPE     = automates_liste
         self.search_hits_IDCODE   = automates_liste
 
+        self.first_run = False
+
+        
+        
+
 
     def search_item_by_type(self, langage):
         list_hits = []
@@ -55,7 +60,7 @@ class SearchEngine:
         search_results = []
         recent_results = []
 
-
+        # if self.first_run == False:
         for recent_hit in self.search_hits_TYPE:
             for hit_IDCODE in self.search_hits_IDCODE:
                 if recent_hit.ID_CODE == hit_IDCODE.ID_CODE:
@@ -70,7 +75,18 @@ class SearchEngine:
             
         self.number_results_found = len(search_results)
         self.list_hits            = search_results
+        self.first_run = True
         
+        
+        # elif self.search_hits_IDCODE == '' and self.search_hits_name != '':
+        #     for recent_hit in self.search_hits_TYPE:
+        #         for hit_name in self.search_hits_name:
+        #             if recent_hit.ID_CODE == hit_name.ID_CODE:
+        #                 recent_results.append(recent_hit)
+        #     self.number_results_found = len(search_results)
+        #     self.list_hits            = search_results
+
+
         return search_results
 
 
@@ -85,6 +101,7 @@ class SearchEngine:
         self.search_hits_name     = self.liste_automates
         self.search_hits_TYPE     = self.liste_automates
         self.search_hits_IDCODE   = self.liste_automates
+        
 
     
 
@@ -101,6 +118,7 @@ class SearchEngine:
             else:
                 for item in self.list_hits[0:10]:
                     item.printAutomate()
+        
         
 
         
@@ -129,7 +147,8 @@ class SearchEngine:
         print("     Search by ID              [2]")
         print("     Search by name            [3]")
         print("     Reset filters             [4]")
-        print("     Comfirm Item              [5]   " + item_suggested + "\n")
+        print("     Add Object to Cart        [5]   " + item_suggested )
+        print("     Exit Search               [6]")
 
                                                                                                     
         
@@ -144,6 +163,7 @@ class SearchEngine:
         NAME           = '3'
         RESET_FILTERS  = '4'
         COMFIRM_OBJECT = '5'
+        EXIT_SEARCH    = '6'
         
         
         filter_selection = '1'
@@ -152,33 +172,57 @@ class SearchEngine:
         
         filter_selection = input("\nSelect option: ")
 
+        print_items_permission = False
+
        
         while True:
             if filter_selection == TYPE:
-                self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, False)
+                self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_items_permission)
                 langage = str(input("Search by type: "))
                 print('     \n     Loading results...')
+                
                 self.search_item_by_type(langage)
                 self.update_search_results()
                 self.search_type = langage
+                
+                if self.search_type != '' and langage == '':
+                    pass
+                else:
+                    pass
 
                 
 
             if filter_selection == IDCODE:
                 langage = str(input("Search by IDCODE: "))
                 print('     \n     Loading results...')
+                
+                
                 self.search_item_by_IDCODE(langage)
                 self.update_search_results()
                 self.search_IDCODE = langage
+
+                if self.search_IDCODE != '' and langage == '':
+                    pass
+                else:
+                    pass
+
                 
 
             if filter_selection == NAME:
-                self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, False)
+                self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_items_permission)
                 langage = str(input("Search by NAME: "))
                 print('     \n     Loading results...')
+                
+                if self.search_name != '' and langage == '':
+                    pass
+                else:
+                    pass
+
                 self.search_item_by_name(langage)
                 self.update_search_results()
                 self.search_name = langage
+
+                
 
             if filter_selection == RESET_FILTERS:
                 self.reset_search()
@@ -192,8 +236,16 @@ class SearchEngine:
                 else:
                     input("You must select one item! Press 'Enter' to continue.")
 
+            if filter_selection == EXIT_SEARCH:
+                self.reset_search()
+                return False
+                
 
-            self.get_search_filter_selection('==== ITEMS SUGGESTED ====')
+
+            print_items_permission = True
+            if self.search_name == '' and self.search_type == '' and self.search_IDCODE == '':
+                print_items_permission = False
+            self.get_search_filter_selection('==== ITEMS SUGGESTED ====', '', False, print_items_permission)
             filter_selection = str(input("\nSelect option: "))
             
 

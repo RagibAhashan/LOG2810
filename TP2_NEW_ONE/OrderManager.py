@@ -1,20 +1,13 @@
 from Object import Object
 from ShoppingCart import ShoppingCart
-import time
 from SearchEngine import SearchEngine
 
 class OrderManager:
-    def __init__(self, entrepot, shopping_cart):
+    def __init__(self, entrepot, shopping_cart, search_engine = ''):
         self.entrepot       = entrepot
-        self.search_engine  = SearchEngine(entrepot)        # Composition
+        self.search_engine  = search_engine        # Agregation
         self.shopping_cart  = shopping_cart
-        self._n_orders = 0
-
-    def add_item(self, item):
-        self.shopping_cart.add_to_cart(item)
-
-    def remove_item(self, item):
-        self.shopping_cart.remove_from_cart(item)
+        self._n_orders      = 0
 
     def remove_item_with_index(self, index):
         item_to_delete = self.shopping_cart.cart_items[index]
@@ -22,38 +15,19 @@ class OrderManager:
         return item_to_delete
         
     def print_order(self):
+        print("\n\n\n Viewing cart : \n")
         self.shopping_cart.print_cart_items()
 
-
     def get_cart_weight(self):
-        return self.shopping_cart._weight_of_items()
+        return self.shopping_cart.weight_of_items
 
     def verify_order(self):
-        if(self.get_cart_weight <= 25) : 
+        if(self.shopping_cart.weight_of_items <= 25) : 
             print("Thank you for your order!")
             return True
         else:
-            print("Your cart is too heavy! Please restart.")
+            print("Your cart is too heavy!"+  str(self.shopping_cart.weight_of_items) +" is too much! Order rejected.")
             return False
-
-    def remove_from_order(self):
-        remove = '1'
-        while remove == '1' :
-            print("\n" + "Which item would you like to remove? ")
-            self.print_order()
-            if(len(self.shopping_cart.cart_items) == 0):
-                print("\n"+"THERE ARE NO ITEMS TO REMOVE!")
-                time.sleep(2.5)
-                break
-            index = int(input("Type the number corresponding to the item you would like to remove : ")) + - 1
-            if isinstance(index, int) and index >= 0 and index < len(self.shopping_cart.cart_items):
-                item_to_add = self.remove_item_with_index(index)
-                self.entrepot.add_item(item_to_add)
-                print("Item sucessfully removed from cart!")
-            else:
-                print("Not a valid number... Try again")
-                self.remove_from_order()   
-            remove = input("Would you like to remove another item? Type '1' for YES or '2' for NO: ") 
 
     #### ADD DETAILS
     def confirm_order(self):
@@ -67,7 +41,6 @@ class OrderManager:
             exit()
         elif checkout == '2':
             print("Alright! You may add other items to your order : ")
-            time.sleep(2.5)
             return True
 
         else:
@@ -79,33 +52,66 @@ class OrderManager:
 
     def order_items(self):
         pass
-
-    def run_order_manager(self):
-        while True:
-            ans = self.search_engine.run_search_engine()
-
-            # If user wants to exit search
-            if ans == "EXIT_SEARCH":
-                print("Search was abandonned!")
-                exit()
     
-            # If user wants to view shopping cart
-            elif ans == "VIEW_CART": 
-                print("\n" + "\n" + "\n") 
-                print("VIEWING SHOPPING CART")
+    def put_back_items_from_cart(self, list_items):
+        for item in list_items:
+            self.entrepot.append(item)
+            #self.search_engine.liste_automates.append(item)
+
+
+
+    def excute_order(self):
+
+        ORDER_ITEM            = '1'
+        VIEW_CART             = '2'
+        REMOVE_ITEM_FROM_CART = '3'
+        CLEAR_CART            = '4'
+        CONFIRM_ORDER         = '5'
+
+        current_state         = '0'
+
+        while True:
+            print("Options : ")
+            print("     Order item                     [1]")
+            print("     View cart                      [2]")
+            print("     Remove item(s) from cart       [3]")
+            print("     Clear cart                     [4]\n")
+            print("     Confirm order                  [5]")
+
+            current_state = str(input("\n   Select option : "))
+
+            if current_state == ORDER_ITEM:
+                item_ordered = self.search_engine.execute_search()
+                if item_ordered != False:
+                    self.shopping_cart.add_to_cart(item_ordered)
+
+
+            if current_state == VIEW_CART:
                 self.print_order()
-                self.confirm_order()
-            
-            # If user wants to clear cart
-            elif ans == "CLEAR_CART":
-                self.clear_cart()
+                
+            if current_state == REMOVE_ITEM_FROM_CART:
+                removed_items_list = self.shopping_cart.remove_an_item()
+                print('\n\n\n ITEM REMOVED: \n')
+                self.put_back_items_from_cart(removed_items_list)
+                
+                for item in removed_items_list:
+                    item.printAutomate()
 
-            # If user wants to remove item(s)
-            elif ans == False:
-                self.remove_from_order()
+
+            if current_state == CLEAR_CART:
+                removed_items = self.shopping_cart.empty_cart()
+                self.put_back_items_from_cart(removed_items)
+
+            if current_state == CONFIRM_ORDER:
+                if self.verify_order() == True:
+                    break
+
+
+
+
+
+
+
+
 
             
-            # If user wants to add item(s)
-            else:
-                self.add_item(ans)
-                self.entrepot.remove_item(ans)
