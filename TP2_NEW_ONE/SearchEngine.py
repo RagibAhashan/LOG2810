@@ -108,22 +108,33 @@ class SearchEngine:
     def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = '', main_menu = False, print_permission = True):
         
         #print(header_msg)
-        print(sub_head_msg)
+
+        if len(self.list_hits) > 10:
+           print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
+        else:
+           print('==== ITEMS SUGGESTED ====')
+
+
+        # print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
 
         if print_permission == True:
-            print(self.number_results_found, 'items found with your search.\n'+ header_msg)
+            #print(self.number_results_found, 'items found with your search.\n'+ header_msg)
             if len(self.list_hits) <= 10:
+                print(self.number_results_found, 'items found with your search.\n'+ header_msg)#+ "(First 10 results of the search are shown)")
                 for item in self.list_hits:
                     item.printAutomate()
             else:
+                print(self.number_results_found, 'items found with your search.\n'+ header_msg+ "(First 10 results of the search are shown)")
                 for item in self.list_hits[0:10]:
                     item.printAutomate()
         
         
 
-        
-
-        correction_spaces = 27
+        if len(self.list_hits) > 10:
+            list_correction_spaces = 10 
+        else:
+            list_correction_spaces = len(self.list_hits)
+        correction_spaces = 17 + list_correction_spaces
         for space in range(os.get_terminal_size().lines - correction_spaces): 
             print('')
             

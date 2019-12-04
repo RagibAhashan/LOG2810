@@ -1,4 +1,3 @@
-from Object import Object
 from ShoppingCart import ShoppingCart
 from SearchEngine import SearchEngine
 
@@ -57,6 +56,18 @@ class OrderManager:
         for item in list_items:
             self.entrepot.append(item)
             #self.search_engine.liste_automates.append(item)
+
+
+    # Composant. Chercher un item. Magasiner.
+    def search_item_to_order(self):
+        item_ordered = self.search_engine.execute_search()
+        if item_ordered != False:
+            self.shopping_cart.add_to_cart(item_ordered)
+
+
+
+
+
 
 
 

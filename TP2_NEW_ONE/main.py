@@ -1,5 +1,5 @@
 from Object import Object
-#from OrderManager import OrderManager
+from OrderManager import OrderManager
 from Entrepot import Entrepot
 from State import State
 from FiniteStateMachine import StateMachine
@@ -33,128 +33,168 @@ def read_file(file_name = 'inventaire.txt'):
 	except Exception as e:
 		print("Error reading this file! Le fichier '" + file_name + "' ne peut pas être lu.")
 
-	return items_list, automate_list
+	return automate_list
 
-
-
-# def main():
-	#items_store, automate_list = read_file('Inventaire_grosFichier.txt')
-	# items_store, automate_list = read_file('inventaire.txt')
-
-	#a = Automate('ami', '111111', 'B', '0')
-
-
-
-	# for item in automate_list:
-	# 	item.printAutomate()
-
-	# print('\n\n\n\n\n')
-	# # entrepot = Entrepot(items_store)
-
-	# search_engine = SearchEngine(automate_list)
-	# while len(search_engine.liste_automates) != 0:
-	# 	search_engine = SearchEngine(automate_list)
-	# 	item = search_engine.execute_search()
-
-	# 	print('\n\n\n\n\n')
-		
-	# 	item.printAutomate()
-	# 	print('\n\n\n\n\n')
-
-		# for item in search_engine.liste_automates:
-		# 	item.printAutomate()
-
-
-		# item = search_engine.execute_search()
-
-		# print('\n\n\n\n\n')
-		
-		# item.printAutomate()
-		# print('\n\n\n\n\n')
-
-		# for item in search_engine.liste_automates:
-		# 	item.printAutomate()
-
-	# print("VIDE!")
-
-	# automate_list.remove(automate_list[2])
-	
-
-	# for item in automate_list:
-	# 	item.printAutomate()
-	
-	
-	
-	
-	# while True:
-	# 	print("Results: ")
-		
-		
-	# 	search_engine.search_IDCODE = str(input("Search code: "))
-	# 	search_engine.search_item_by_IDCODE(search_engine.search_IDCODE)
-		
-		
-	# 	search_engine.search_name = str(input("Search name: "))
-	# 	search_engine.search_item_by_name(search_engine.search_name)
-		
-		
-	# 	search_engine.search_type = str(input("Search type: "))
-	# 	search_engine.search_item_by_type(search_engine.search_type)
-		
-		
-	# 	search_engine.update_search_results()
-	# 	print()
-	# 	print('IDCODE:')
-	# 	for item in search_engine.search_hits_IDCODE:
-	# 		item.printAutomate()
-
-	# 	print()
-	# 	print('NAME:')
-	# 	for item in search_engine.search_hits_name:
-	# 		item.printAutomate()
-
-	# 	print()
-	# 	print('TYPE:')
-	# 	for item in search_engine.search_hits_TYPE:
-	# 		item.printAutomate()
-	# 	print()
-	# 	print()
-
-	
-		# search_engine.update_search_results()
-		
-		# print(search_engine.number_results_found)
-		# search_engine.get_search_filter_selection()
-		# for item in search_engine.list_hits:
-		# 	item.printAutomate()
-	
-
-def main():
-	pass
-
-
-def pritam():
+def test():
 	from OrderManager import OrderManager
 
-	a, automate_list = read_file('inventaire.txt')
-
-	# entrepot = Entrepot(automate_list)
-
+	automate_list = read_file('inventaire.txt')
 	search_engine = SearchEngine(automate_list)
-
 	shopping_cart = ShoppingCart()
-
 	order = OrderManager(automate_list, shopping_cart, search_engine)
-
 	order.excute_order()
 
 
 
+def menu_principal():
+	# Initialiser le lexique: 
+	# Shopping/Ajouter au panier:
+	# Remove an object:
+	# Clear Cart:
+	# Checkout:
+	# Quitter
+
+	# Si les valeurs à l'interieur de cet liste n'est pas un input de l'usager, on refuse la reponse.
+	reponses_possibles = ['1','2','3','4','5','6', '7']
+	
+	space_col = int(os.get_terminal_size().columns/2) - 28
+	msg_initialiser_lexique = ''
+	msg_shopping = ''
+	msg_view_cart = ''
+	msg_remove_item = ''
+	msg_clear_cart = ''
+	msg_checkout = ''
+	msg_quit = ''
+
+	for col_space in range(int(space_col)):
+		msg_initialiser_lexique += ' '
+		msg_shopping += ' '
+		msg_view_cart += ' '
+		msg_remove_item += ' '
+		msg_clear_cart += ' '
+		msg_checkout += ' '
+		msg_quit += ' '
+
+
+	msg_initialiser_lexique += "Initialisez le programme avec un lexique      Tappez [1]"
+	msg_shopping 			+= "Chercher un objet et magasiner                Tappez [2]"
+	msg_view_cart			+= "Voir votre panier                             Tappez [3]"
+	msg_remove_item			+= "Enlever un item du panier                     Tappez [4]"
+	msg_clear_cart 			+= "Vider votre panier                            Tappez [5]"
+	msg_checkout			+= "Commander les objets dans votre panier        Tappez [6]"
+	msg_quit				+= "Quitter le programme                          Tappez [7]"
+
+
+	while True:
+		print()
+		print()
+		print(msg_initialiser_lexique)
+		print(msg_shopping)
+		print(msg_view_cart)
+		print(msg_remove_item)
+		print(msg_clear_cart)
+		print(msg_checkout)
+		print(msg_quit)
+
+
+		correction_spaces = 11
+		for space in range(os.get_terminal_size().lines - correction_spaces):
+			print('')
+
+		msg_input = ''
+		for i in range(space_col):
+			msg_input += ' '
+		msg_input += "Votre choix: "
+		ans = str(input(msg_input))
+		if ans in reponses_possibles:
+			return ans
+		
+
+def format_spaces(correction_spaces):
+	for space in range(os.get_terminal_size().lines - correction_spaces):
+			print('')
+
+
+
+def main():
+	
+
+	INITIALISE_LEXIQUE    = '1'
+	ORDER_ITEM            = '2'
+	VIEW_CART             = '3'
+	REMOVE_ITEM_FROM_CART = '4'
+	CLEAR_CART            = '5'
+	CONFIRM_ORDER         = '6'
+	QUIT_PROGRAM          = '7'
+
+	current_state = '0'
+
+
+	automate_list = False
+	search_engine = False
+	shopping_cart = False
+	order 		  = False
+	
+	
+
+	while True:
+		current_state = menu_principal() 
+
+		if current_state == INITIALISE_LEXIQUE:
+			file_name = str(input("Rentrez le nom du fichier a lire: "))
+			if file_name != 'inventaire.txt' and file_name != 'Inventaire_grosFichier.txt':
+				alternatif = str(input("Vouliez vous lire 'inventaire.txt' au lieu? Tappez 1 pour oui" ))
+				if alternatif == '1':
+					automate_list = read_file('inventaire.txt')
+					search_engine = SearchEngine(automate_list)
+					shopping_cart = ShoppingCart()
+					order = OrderManager(automate_list, shopping_cart, search_engine)
+			else:
+				automate_list = read_file(file_name)
+				search_engine = SearchEngine(automate_list)
+				shopping_cart = ShoppingCart()
+				order = OrderManager(automate_list, shopping_cart, search_engine)
+
+
+		if current_state == ORDER_ITEM:
+			if automate_list != False:
+				order.search_item_to_order()
+
+
+		if current_state == VIEW_CART:
+			if automate_list != False:
+				pass
+			
+
+
+		if current_state == REMOVE_ITEM_FROM_CART:
+			if automate_list != False:
+				pass
+
+
+
+		if current_state == CLEAR_CART:
+			if automate_list != False:
+				pass
+
+
+		if current_state == CONFIRM_ORDER:
+			if automate_list != False:
+				pass
+
+
+		if current_state == QUIT_PROGRAM:
+			break
+
+
+
+
+		if automate_list == False:
+				print("               INITIALISEZ LE PROGRAMME AVEC UN LEXIQUE")
+		else:
+			print()
+
+#test()
 
 if __name__ == '__main__':
-
-	a = input("r ou p")
-	if a == 'r':
-		main()
-	else:
-		pritam()
+	main()

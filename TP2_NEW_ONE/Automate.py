@@ -1,5 +1,8 @@
 from State import State
 class Automate:
+    #############################################################################################
+    #   Classe Automate: 
+    #############################################################################################
     def __init__(self, item_name = '', ID_CODE = '', type_item = '', item_number = '0'):
         self.main_state = State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)
         self.item_name  = item_name
@@ -15,14 +18,26 @@ class Automate:
         self.assemble_states() # Construit l'automate.
         self.set_weight()
 
-
+    #############################################################################################
+    #   methode printAutomate: affiche les charactéristique d'un item
+    #	params [self]
+    #############################################################################################
     def printAutomate(self):
         print("Type: " + self.type_item + "   IDCODE: " + self.ID_CODE + "  Name: " + self.item_name)
 
+    #############################################################################################
+    #	methode info: retourne l'information d'un item
+    #	params [self]
+    #   return automate_info (string)
+    #############################################################################################
     def info(self):
         automate_info = "TYPE: " + self.type_item + "  IDCODE: " + self.ID_CODE + "  NAME:" + self.item_name
         return automate_info
     
+    #############################################################################################
+    #	methode set_weight: fixe le poids d'un item 
+    #	params [self]
+    #############################################################################################
     def set_weight(self):
         if self.type_item == 'A':
             self.weight = 1
@@ -33,6 +48,10 @@ class Automate:
         else:
             self.weight = 0
 
+    #############################################################################################
+    #	assemble_states: 
+    #	params [self]
+    #############################################################################################
     def assemble_states(self):
 
         for i in range(len(self.item_name)):
@@ -59,8 +78,11 @@ class Automate:
 
             self.id_chemin.append(name_state)
 
-
-
+    #############################################################################################
+    #	methode transition_state_function: affiche les charactéristique d'unautomate
+    #	params [self, user_input, current_state, mode = 'NAME']
+    #   return first_state_terminal () or current_state + 1 ()
+    #############################################################################################
     def transition_state_function(self, user_input, current_state, mode = 'NAME'):
         first_state_terminal = 0
         if mode == 'NAME':
@@ -83,12 +105,11 @@ class Automate:
                 else:
                     return first_state_terminal
 
-
-    
-
-
-
-    # Return true if the langage is found in the States Machine!
+    #############################################################################################
+    #	methode printAutomate: affiche les charactéristique d'unautomate
+    #	params [self]
+    #   return 
+    #############################################################################################
     def verify_langage(self, langage = '', mode = 'NAME'):
         is_a_langage_in_automate = False
     
@@ -153,17 +174,4 @@ class Automate:
         else:
             print("The mode '" + mode + "' is NOT ACCEPTED!")
             return is_a_langage_in_automate
-
-
-
-
-
-# TESTS --- ENLEVER AVANT LA REMISE --- TESTS#
-
-# a = Automate('ami', '546789', 'A', '1')
-# print()
-# print(a.verify_langage('asd','NAME'))
-# print(a.verify_langage('asd','IDCODE'))
-# print(a.verify_langage('asd','TYPE'))
-
 
