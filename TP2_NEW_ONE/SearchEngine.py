@@ -1,5 +1,4 @@
 import os
-import platform
 from random import randrange
 
 #############################################################################################
@@ -94,15 +93,6 @@ class SearchEngine:
         self.number_results_found = len(search_results)
         self.list_hits            = search_results
         self.first_run = True
-        
-        
-        # elif self.search_hits_IDCODE == '' and self.search_hits_name != '':
-        #     for recent_hit in self.search_hits_TYPE:
-        #         for hit_name in self.search_hits_name:
-        #             if recent_hit.ID_CODE == hit_name.ID_CODE:
-        #                 recent_results.append(recent_hit)
-        #     self.number_results_found = len(search_results)
-        #     self.list_hits            = search_results
 
 
         return search_results
@@ -131,18 +121,13 @@ class SearchEngine:
     #           sub_head_msg = '', main_menu = False, print_permission = True]
     #############################################################################################
     def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = '', main_menu = False, print_permission = True):
-        
-        #print(header_msg)
 
         if len(self.list_hits) > 10:
            print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
         else:
            print('==== ITEMS SUGGESTED ====')
 
-        # print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
-
         if print_permission == True:
-            #print(self.number_results_found, 'items found with your search.\n'+ header_msg)
             if len(self.list_hits) <= 10:
                 print(self.number_results_found, 'items found with your search.\n'+ header_msg)#+ "(First 10 results of the search are shown)")
                 for item in self.list_hits:

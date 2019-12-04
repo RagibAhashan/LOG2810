@@ -13,7 +13,7 @@ class OrderManager:
 
 
     #############################################################################################
-    #	methode remove_index_with_index: affiche les charactéristique d'un automate
+    #	methode remove_index_with_index: affiche les charactéristiques d'un automate
     #	params [self, index(int)]
     #   return item_to_delete(Automate)
     #############################################################################################
@@ -24,7 +24,7 @@ class OrderManager:
 
 
     #############################################################################################
-    #	methode print_order: affiche les charactéristique du panier
+    #	methode print_order: affiche les charactéristiques du panier
     #	params [self]
     #############################################################################################
     def print_order(self, commande_print = False):
@@ -44,9 +44,7 @@ class OrderManager:
         if self.shopping_cart.weight_of_items == 0:
             print("Your shopping cart is empty!")
             return False
-            
         if(self.shopping_cart.weight_of_items <= 25 and self.shopping_cart.weight_of_items > 0) : 
-            print("Thank you for your order!")
             return True
         else:
             print("Your cart is too heavy!\n  "+  str(self.shopping_cart.weight_of_items) +"kg is too much! PLEASE REMOVE ITEMS FROM CART.\n ORDER REJECTED!.")
@@ -91,6 +89,9 @@ class OrderManager:
         removed_items = self.shopping_cart.empty_cart()
         self.put_back_items_from_cart(removed_items)
 
+    def remove_items_ordered(self):
+        self.shopping_cart.cart_items.clear()
+        self.shopping_cart.weight_of_items = 0
 
     #############################################################################################
     #	methode execute_order: cette methode forme l'interface de gestion

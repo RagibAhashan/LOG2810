@@ -15,7 +15,7 @@ from Automate     import Automate
 
 import csv
 import os
-import platform
+
 
 #############################################################################################
 #	fonction read_file: 
@@ -38,6 +38,7 @@ def read_file(file_name = 'inventaire.txt'):
 				automate_list.append(automate)
 	except Exception as e:
 		print("Error reading this file! Le fichier '" + file_name + "' ne peut pas être lu.")
+		return False
 
 	return automate_list
 
@@ -142,10 +143,13 @@ def main():
 				alternatif = str(input("Vouliez vous lire 'inventaire.txt' au lieu? Tappez 1 pour oui" ))
 				if alternatif == '1':
 					file_name = 'inventaire.txt'
-					automate_list = read_file(file_name)
+				
+				automate_list = read_file(file_name)
+				if file_name != False:
 					search_engine = SearchEngine(automate_list)
 					shopping_cart = ShoppingCart()
 					order = OrderManager(automate_list, shopping_cart, search_engine)
+
 			else:
 				automate_list = read_file(file_name)
 				search_engine = SearchEngine(automate_list)
@@ -184,7 +188,7 @@ def main():
 			if automate_list != False:
 				if order.verify_order() == True:
 					order.print_order(True)
-					order.clear_cart_items()
+					order.remove_items_ordered()
 				input("       Appuyez sur 'Enter' pour retourner au Menu...     ")
 				
 

@@ -24,10 +24,17 @@ class State:
     def isTerminalState(self):
         return self.terminal
 
-
+    #############################################################################################
+    #   methode setNextState: fixe la valeur du prochain état
+    #	params [self, next_state(State)]
+    #############################################################################################
     def setNextState(self, next_state):
         self.next_state = next_state
 
+    #############################################################################################
+    #   methode print_state: affiche les caractéristique d'un état
+    #	params [self]
+    #############################################################################################
     def print_state(self):
         print('state_name: ' + self.state_name)
         print('User input required to acces this state: ', self.inputs_required)
