@@ -18,7 +18,8 @@ import os
 
 
 #############################################################################################
-#	fonction read_file: 
+#	fonction read_file: fonction pour lire un fichier puis former une list
+#						pour l'automate
 #	params [file_name]
 #   return automate_list(Atomate[])
 #############################################################################################
@@ -43,17 +44,11 @@ def read_file(file_name = 'inventaire.txt'):
 	return automate_list
 
 #############################################################################################
-#	fonction menu_principal: 
+#	fonction menu_principal: représente le menu principale
 #	params []
 #   return ans(Automate)
 #############################################################################################
 def menu_principal():
-	# Initialiser le lexique: 
-	# Shopping/Ajouter au panier:
-	# Remove an object:
-	# Clear Cart:
-	# Checkout:
-	# Quitter
 
 	# Si les valeurs à l'interieur de cet liste n'est pas un input de l'usager, on refuse la reponse.
 	reponses_possibles = ['1','2','3','4','5','6', '7']
