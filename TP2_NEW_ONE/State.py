@@ -1,3 +1,7 @@
+
+#############################################################################################
+#	Classe State: Cette classe défini un état
+#############################################################################################
 class State:
     def __init__(self, state_name = '', inputs_required = [], possible_inputs = [], terminal = False):
         self.state_name = state_name
@@ -12,7 +16,11 @@ class State:
         self.terminal = terminal
 
         self.next_state = ''
-        
+
+    #############################################################################################
+    #   methode isTerminalState: retourne un si c'est un état terminal
+    #	params [self]
+    #############################################################################################
     def isTerminalState(self):
         return self.terminal
 

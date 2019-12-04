@@ -141,8 +141,8 @@ def main():
 			if file_name != 'inventaire.txt' and file_name != 'Inventaire_grosFichier.txt':
 				alternatif = str(input("Vouliez vous lire 'inventaire.txt' au lieu? Tappez 1 pour oui" ))
 				if alternatif == '1':
-					file_name = alternatif
-					automate_list = read_file('inventaire.txt')
+					file_name = 'inventaire.txt'
+					automate_list = read_file(file_name)
 					search_engine = SearchEngine(automate_list)
 					shopping_cart = ShoppingCart()
 					order = OrderManager(automate_list, shopping_cart, search_engine)
