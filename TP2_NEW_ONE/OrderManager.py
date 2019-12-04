@@ -2,7 +2,7 @@ from ShoppingCart import ShoppingCart
 from SearchEngine import SearchEngine
 
 #############################################################################################
-#	Classe OrderManager: Cette défini les commandes
+#	Classe OrderManager: Cette classe défini les commandes
 #############################################################################################
 class OrderManager:
     def __init__(self, entrepot, shopping_cart, search_engine = ''):
@@ -13,8 +13,8 @@ class OrderManager:
 
 
     #############################################################################################
-    #	methode remove_index_with_index: affiche les charactéristique d'unautomate
-    #	params [self, index]
+    #	methode remove_index_with_index: affiche les charactéristique d'un automate
+    #	params [self, index(int)]
     #   return item_to_delete(automate)
     #############################################################################################
     def remove_item_with_index(self, index):

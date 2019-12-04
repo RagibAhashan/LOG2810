@@ -81,8 +81,8 @@ class Automate:
 
     #############################################################################################
     #	methode transition_state_function: affiche les charactéristique d'unautomate
-    #	params [self, user_input, current_state, mode = 'NAME']
-    #   return first_state_terminal (automate) or current_state + 1 (automate)
+    #	params [self, user_input(String), current_state(State), mode = 'NAME']
+    #   return first_state_terminal (State) or current_state + 1 (State)
     #############################################################################################
     def transition_state_function(self, user_input, current_state, mode = 'NAME'):
         first_state_terminal = 0

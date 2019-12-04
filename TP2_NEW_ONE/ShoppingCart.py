@@ -12,7 +12,7 @@ class ShoppingCart:
 
 
     #############################################################################################
-    #   methode add_to_cart: affiche les charactéristique d'un item
+    #   methode add_to_cart: ajoute un item au panier, et ajuste son poids
     #	params [self]
     #############################################################################################
     def add_to_cart(self, item):
