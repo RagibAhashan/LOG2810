@@ -1,9 +1,10 @@
 import os
 import platform
-from FiniteStateMachine import StateMachine
 from random import randrange
 
-
+#############################################################################################
+#	Classe SearchEngine: Cette classe défini notre engin de recherche
+#############################################################################################
 class SearchEngine:
     def __init__(self, automates_liste = []):
 
@@ -25,10 +26,12 @@ class SearchEngine:
 
         self.first_run = False
 
-        
-        
 
-
+    #############################################################################################
+    #	methode search_item_by_type: cherche les items selon un type et place 
+    #                                les suggestions dans une liste.
+    #	params [self, langage]
+    #############################################################################################
     def search_item_by_type(self, langage):
         list_hits = []
         for item in self.liste_automates:
@@ -40,6 +43,12 @@ class SearchEngine:
         else:
             self.search_hits_TYPE = list_hits
 
+
+    #############################################################################################
+    #	methode search_item_by_IDCODE: cherche les items selon un id code et place 
+    #                                  les suggestions dans une liste.
+    #	params [self, langage]
+    #############################################################################################
     def search_item_by_IDCODE(self, langage):
         list_hits = []
         for item in self.liste_automates:
@@ -48,6 +57,11 @@ class SearchEngine:
         self.search_hits_IDCODE = list_hits
 
 
+    #############################################################################################
+    #	methode search_item_by_name: cherche les items selon un nom et place 
+    #                                les suggestions dans une liste.
+    #	params [self, langage]
+    #############################################################################################
     def search_item_by_name(self, langage):
         list_hits = []
         for item in self.liste_automates:
@@ -56,6 +70,10 @@ class SearchEngine:
         self.search_hits_name = list_hits
 
 
+    #############################################################################################
+    #	methode update_search_results: met les suggestions à jour
+    #	params [self]
+    #############################################################################################
     def update_search_results(self):
         search_results = []
         recent_results = []
@@ -90,7 +108,10 @@ class SearchEngine:
         return search_results
 
 
-
+    #############################################################################################
+    #	methode reset_search: réinitialise la recherche et ses composantes 
+    #	params [self]
+    #############################################################################################
     def reset_search(self):
         self.search_results       = 0
         self.number_results_found = 0
@@ -103,8 +124,11 @@ class SearchEngine:
         self.search_hits_IDCODE   = self.liste_automates
         
 
-    
-
+    #############################################################################################
+    #	methode get_search_filter_selection: permet d'afficher les suggestions
+    #                                        selon les différents filtres (type, id, nom)
+    #	params [self, langage]
+    #############################################################################################
     def get_search_filter_selection(self, header_msg = '==== ITEMS SUGGESTED ====', sub_head_msg = '', main_menu = False, print_permission = True):
         
         #print(header_msg)
@@ -113,7 +137,6 @@ class SearchEngine:
            print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
         else:
            print('==== ITEMS SUGGESTED ====')
-
 
         # print('==== ITEMS SUGGESTED ====' + "(First 10 results of the search are shown)")
 
@@ -128,8 +151,6 @@ class SearchEngine:
                 for item in self.list_hits[0:10]:
                     item.printAutomate()
         
-        
-
         if len(self.list_hits) > 10:
             list_correction_spaces = 10 
         else:
@@ -163,9 +184,13 @@ class SearchEngine:
 
                                                                                                     
         
-
-
-
+    #############################################################################################
+    #	methode execute_search: cette methode forme l'interface de gestion
+    #                           de recherche. L'utilisateur peut chercher
+    #                           selon différents filtres, décider d'ajouter l'item
+    #                           trouvé, ou de revenir au menu principal.
+    #	params [self]
+    #############################################################################################
     def execute_search(self):
         
         # States

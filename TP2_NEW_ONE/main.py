@@ -6,11 +6,9 @@
 #############	Version de Python utilisé: 3.7.3								        	############
 ########################################################################################################
 
-from Object import Object
+
 from OrderManager import OrderManager
-from Entrepot import Entrepot
 from State import State
-from FiniteStateMachine import StateMachine
 from SearchEngine import SearchEngine
 from ShoppingCart import ShoppingCart
 from Automate     import Automate
@@ -19,9 +17,12 @@ import csv
 import os
 import platform
 
-
+#############################################################################################
+#	fonction read_file: 
+#	params [file_name]
+#   return automate_list(Atomate[])
+#############################################################################################
 def read_file(file_name = 'inventaire.txt'):
-	items_list = []
 	automate_list = []
 	try:
 		with open(file_name) as csv_file:
@@ -35,24 +36,16 @@ def read_file(file_name = 'inventaire.txt'):
 				automate = Automate(name, id_code, type_object, str(line_counter))
 				line_counter += 1
 				automate_list.append(automate)
-				item = Object(name, id_code, type_object)
-				items_list.append(item)
 	except Exception as e:
 		print("Error reading this file! Le fichier '" + file_name + "' ne peut pas être lu.")
 
 	return automate_list
 
-def test():
-	from OrderManager import OrderManager
-
-	automate_list = read_file('inventaire.txt')
-	search_engine = SearchEngine(automate_list)
-	shopping_cart = ShoppingCart()
-	order = OrderManager(automate_list, shopping_cart, search_engine)
-	order.excute_order()
-
-
-
+#############################################################################################
+#	fonction menu_principal: 
+#	params []
+#   return ans(Automate)
+#############################################################################################
 def menu_principal():
 	# Initialiser le lexique: 
 	# Shopping/Ajouter au panier:
@@ -64,7 +57,7 @@ def menu_principal():
 	# Si les valeurs à l'interieur de cet liste n'est pas un input de l'usager, on refuse la reponse.
 	reponses_possibles = ['1','2','3','4','5','6', '7']
 	
-	space_col = int(os.get_terminal_size().columns/2) - 28
+	space_col = int(os.get_terminal_size().columns/2) - 28 # Formattage pour l'affichage. [28: Essaies-erreur/Arbitraire]
 	msg_initialiser_lexique = ''
 	msg_shopping = ''
 	msg_view_cart = ''
@@ -82,7 +75,7 @@ def menu_principal():
 		msg_checkout += ' '
 		msg_quit += ' '
 
-
+	msg_menu_principal		= msg_quit + "                     MENU PRINCIPAL                      "
 	msg_initialiser_lexique += "Initialisez le programme avec un lexique      Tappez [1]"
 	msg_shopping 			+= "Chercher un objet et magasiner                Tappez [2]"
 	msg_view_cart			+= "Voir votre panier                             Tappez [3]"
@@ -94,7 +87,7 @@ def menu_principal():
 
 	while True:
 		print()
-		print()
+		print(msg_menu_principal)
 		print(msg_initialiser_lexique)
 		print(msg_shopping)
 		print(msg_view_cart)
@@ -115,12 +108,6 @@ def menu_principal():
 		ans = str(input(msg_input))
 		if ans in reponses_possibles:
 			return ans
-		
-
-def format_spaces(correction_spaces):
-	for space in range(os.get_terminal_size().lines - correction_spaces):
-			print('')
-
 
 
 def main():
@@ -148,7 +135,9 @@ def main():
 		current_state = menu_principal() 
 
 		if current_state == INITIALISE_LEXIQUE:
-			file_name = str(input("Rentrez le nom du fichier a lire: "))
+			msg_input = "Rentrez le nom du fichier a lire: "
+			print(msg_input.center(int(os.get_terminal_size().columns-22), ' '))
+			file_name = str(input(""))
 			if file_name != 'inventaire.txt' and file_name != 'Inventaire_grosFichier.txt':
 				alternatif = str(input("Vouliez vous lire 'inventaire.txt' au lieu? Tappez 1 pour oui" ))
 				if alternatif == '1':
@@ -200,10 +189,13 @@ def main():
 
 
 		if current_state == QUIT_PROGRAM:
+			print(" \n\n\n EXITING PROGRAM")
 			break
 
 		if automate_list == False:
-				print("               INITIALISEZ LE PROGRAMME AVEC UN LEXIQUE")
+			error = 'INITIALISEZ LE PROGRAMME AVEC UN LEXIQUE'
+			print(error.center(int(os.get_terminal_size().columns-1), '*'))
+			
 		else:
 			print()
 

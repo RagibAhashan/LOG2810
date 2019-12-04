@@ -1,11 +1,20 @@
 from Automate import Automate
 import os
 
+
+#############################################################################################
+#	Classe ShppingCart: Cette classe défini un panier (ensemble d'items)
+#############################################################################################
 class ShoppingCart:
     def __init__(self):
         self.cart_items = []
         self.weight_of_items = 0
 
+
+    #############################################################################################
+    #   methode add_to_cart: affiche les charactéristique d'un item
+    #	params [self]
+    #############################################################################################
     def add_to_cart(self, item):
         self.cart_items.append(item)
         self.weight_of_items += item.weight

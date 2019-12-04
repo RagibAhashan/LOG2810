@@ -2,7 +2,7 @@ from ShoppingCart import ShoppingCart
 from SearchEngine import SearchEngine
 
 #############################################################################################
-#	Classe OrderManager: classe qui s'occupe de faire les commmandes
+#	Classe OrderManager: Cette défini les commandes
 #############################################################################################
 class OrderManager:
     def __init__(self, entrepot, shopping_cart, search_engine = ''):
@@ -41,7 +41,7 @@ class OrderManager:
     #   return True or False
     #############################################################################################
     def verify_order(self):
-        if(self.shopping_cart.weight_of_items <= 25) : 
+        if(self.shopping_cart.weight_of_items <= 25 and self.shopping_cart.weight_of_items > 0) : 
             print("Thank you for your order!")
             return True
         else:
@@ -88,7 +88,7 @@ class OrderManager:
         self.put_back_items_from_cart(removed_items)
 
 
-   #############################################################################################
+    #############################################################################################
     #	methode execute_order: cette methode forme l'interface de gestion
     #                          de commandes. L'utilisateur peut chercher
     #                          un item, voir le panier, enlever des items du
