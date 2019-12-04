@@ -1,8 +1,9 @@
 from State import State
+
+###########################################################################################
+#   Classe Automate: Cette classe défini un automate (Objet/Item)
+###########################################################################################
 class Automate:
-    #############################################################################################
-    #   Classe Automate: 
-    #############################################################################################
     def __init__(self, item_name = '', ID_CODE = '', type_item = '', item_number = '0'):
         self.main_state = State('S' + item_number, [], [item_name[0], ID_CODE[0], type_item[0]], True)
         self.item_name  = item_name
@@ -26,7 +27,7 @@ class Automate:
         print("Type: " + self.type_item + "   IDCODE: " + self.ID_CODE + "  Name: " + self.item_name)
 
     #############################################################################################
-    #	methode info: retourne l'information d'un item
+    #	methode info: retourne l'information sur un item
     #	params [self]
     #   return automate_info (string)
     #############################################################################################
@@ -49,7 +50,7 @@ class Automate:
             self.weight = 0
 
     #############################################################################################
-    #	assemble_states: 
+    #	assemble_states: rassemble les différents états ensemble
     #	params [self]
     #############################################################################################
     def assemble_states(self):
@@ -81,7 +82,7 @@ class Automate:
     #############################################################################################
     #	methode transition_state_function: affiche les charactéristique d'unautomate
     #	params [self, user_input, current_state, mode = 'NAME']
-    #   return first_state_terminal () or current_state + 1 ()
+    #   return first_state_terminal (automate) or current_state + 1 (automate)
     #############################################################################################
     def transition_state_function(self, user_input, current_state, mode = 'NAME'):
         first_state_terminal = 0
@@ -107,8 +108,8 @@ class Automate:
 
     #############################################################################################
     #	methode printAutomate: affiche les charactéristique d'unautomate
-    #	params [self]
-    #   return 
+    #	params [self, langage = '', mode = 'NAME']
+    #   return True or False
     #############################################################################################
     def verify_langage(self, langage = '', mode = 'NAME'):
         is_a_langage_in_automate = False

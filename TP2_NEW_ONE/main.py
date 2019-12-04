@@ -1,3 +1,11 @@
+########################################################################################################
+############# 	LOG2810 - STRUCTURES DISCRETES								        		############
+#############	Travail réalisé par Ragib Ahashan, Pritam Patel, Nawras Mohammmed Amin		############
+#############	Travail Pratique 2															############
+#############																				############
+#############	Version de Python utilisé: 3.7.3								        	############
+########################################################################################################
+
 from Object import Object
 from OrderManager import OrderManager
 from Entrepot import Entrepot
@@ -12,7 +20,6 @@ import os
 import platform
 
 
-# WORKS
 def read_file(file_name = 'inventaire.txt'):
 	items_list = []
 	automate_list = []
@@ -163,38 +170,43 @@ def main():
 
 		if current_state == VIEW_CART:
 			if automate_list != False:
-				pass
+				order.print_order()
+				input("       Appuyez sur 'Enter' pour retourner au Menu...     ")
 			
 
 
 		if current_state == REMOVE_ITEM_FROM_CART:
 			if automate_list != False:
-				pass
+				order.remove_item_from_cart()
+				input("       Appuyez sur 'Enter' pour retourner au Menu...     ")
+				
 
 
 
 		if current_state == CLEAR_CART:
 			if automate_list != False:
-				pass
+				order.clear_cart_items()
+				input("LE PANIER EST VIDÉE!\n       Appuyez sur 'Enter' pour retourner au Menu...     ")
+				
 
 
 		if current_state == CONFIRM_ORDER:
 			if automate_list != False:
-				pass
+				if order.verify_order() == True:
+					order.print_order(True)
+					order.clear_cart_items()
+				input("       Appuyez sur 'Enter' pour retourner au Menu...     ")
+				
 
 
 		if current_state == QUIT_PROGRAM:
 			break
-
-
-
 
 		if automate_list == False:
 				print("               INITIALISEZ LE PROGRAMME AVEC UN LEXIQUE")
 		else:
 			print()
 
-#test()
 
 if __name__ == '__main__':
 	main()

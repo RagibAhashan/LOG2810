@@ -1,4 +1,5 @@
 from Automate import Automate
+import os
 
 class ShoppingCart:
     def __init__(self):
@@ -51,13 +52,34 @@ class ShoppingCart:
 
 
 
-    def print_cart_items(self):
+    def print_cart_items(self, commande_print = False):
+        
+
         index = 1
+        msg_print = "\n"
+        if commande_print == False:
+            correction_lines = 7
+        else:
+            correction_lines = 10
+            #print("\n   THANK YOU FOR YOUR ORDER! \n")
+
+
+
         for item in self.cart_items:
             print("[#" + str(index) + "]      " + item.info())
             index += 1
-        print("\n" + "Total items in the cart: " + str(len(self.cart_items)))
+        
+        print(msg_print + "Total items in the cart: " + str(len(self.cart_items)))
         print("And the total weight is:" , self.weight_of_items, 'kg. ')
+
+        correction_spaces = len(self.cart_items) + correction_lines
+        for space in range(os.get_terminal_size().lines - correction_spaces):
+            print()
+        
+
+
+
+
 
     def empty_cart(self):
         remove_items         = self.cart_items

@@ -1,6 +1,9 @@
 from ShoppingCart import ShoppingCart
 from SearchEngine import SearchEngine
 
+#############################################################################################
+#	Classe OrderManager: classe qui s'occupe de faire les commmandes
+#############################################################################################
 class OrderManager:
     def __init__(self, entrepot, shopping_cart, search_engine = ''):
         self.entrepot       = entrepot
@@ -8,69 +11,90 @@ class OrderManager:
         self.shopping_cart  = shopping_cart
         self._n_orders      = 0
 
+
+    #############################################################################################
+    #	methode remove_index_with_index: affiche les charactéristique d'unautomate
+    #	params [self, index]
+    #   return item_to_delete(automate)
+    #############################################################################################
     def remove_item_with_index(self, index):
         item_to_delete = self.shopping_cart.cart_items[index]
         del self.shopping_cart.cart_items[index]
         return item_to_delete
-        
-    def print_order(self):
-        print("\n\n\n Viewing cart : \n")
-        self.shopping_cart.print_cart_items()
 
-    def get_cart_weight(self):
-        return self.shopping_cart.weight_of_items
 
+    #############################################################################################
+    #	methode print_order: affiche les charactéristique du panier
+    #	params [self]
+    #############################################################################################
+    def print_order(self, commande_print = False):
+        if commande_print == True:
+            print("\n\n\n THANK YOU FOR YOUR ORDER!  \n ORDER RECEIPT:")
+        else:
+            print("\n\n\n Viewing cart : \n")
+        self.shopping_cart.print_cart_items(commande_print)
+
+
+    #############################################################################################
+    #	methode verify_order: verifie si le poids est respecté
+    #	params [self]
+    #   return True or False
+    #############################################################################################
     def verify_order(self):
         if(self.shopping_cart.weight_of_items <= 25) : 
             print("Thank you for your order!")
             return True
         else:
-            print("Your cart is too heavy!"+  str(self.shopping_cart.weight_of_items) +" is too much! Order rejected.")
+            print("Your cart is too heavy!\n  "+  str(self.shopping_cart.weight_of_items) +"kg is too much! PLEASE REMOVE ITEMS FROM CART.\n ORDER REJECTED!.")
             return False
 
-    #### ADD DETAILS
-    def confirm_order(self):
-        checkout = input("Would you like to order these items? Type '1' for YES or '2' for NO : ")
-        if checkout == '1':
-            print('\n'+ '\n' + '\n' +'\n')
-            print("Thank you for your order(s)!")
-            print("Here's a summary of your orders: ")
-            self.print_order()
-            print('\n'+ '\n' + '\n' +'\n')
-            exit()
-        elif checkout == '2':
-            print("Alright! You may add other items to your order : ")
-            return True
 
-        else:
-            print("Not a valid answer...")
-            self.confirm_order()
-
-    def clear_cart(self):
-        self.shopping_cart.empty_cart()
-
-    def order_items(self):
-        pass
-    
+    #############################################################################################
+    #	methode put_back_Items_from_cart: remet l'item enlever du panier dans l'entrepot
+    #	params [self, list_items]
+    #############################################################################################
     def put_back_items_from_cart(self, list_items):
         for item in list_items:
             self.entrepot.append(item)
-            #self.search_engine.liste_automates.append(item)
 
 
-    # Composant. Chercher un item. Magasiner.
+    #############################################################################################
+    #	methode search_item_to_order: cherche l'item à placer dans le panier
+    #	params [self]
+    #############################################################################################
     def search_item_to_order(self):
         item_ordered = self.search_engine.execute_search()
         if item_ordered != False:
             self.shopping_cart.add_to_cart(item_ordered)
 
+    #############################################################################################
+    #	methode remove_item_from_cart: enleve l'item du panier
+    #                                  rajoute l'item dans l'entrepot
+    #	params [self]
+    #############################################################################################
+    def remove_item_from_cart(self):
+        removed_items_list = self.shopping_cart.remove_an_item()
+        print('\n\n\n ITEM REMOVED: \n')
+        self.put_back_items_from_cart(removed_items_list)
 
 
+    #############################################################################################
+    #	methode clear_cart_items: réinitialise le panier et ses composantes
+    #                             rajoute les items dans l'entrepot
+    #	params [self]
+    #############################################################################################
+    def clear_cart_items(self):
+        removed_items = self.shopping_cart.empty_cart()
+        self.put_back_items_from_cart(removed_items)
 
 
-
-
-
+   #############################################################################################
+    #	methode execute_order: cette methode forme l'interface de gestion
+    #                          de commandes. L'utilisateur peut chercher
+    #                          un item, voir le panier, enlever des items du
+    #                          panier, ou de confimer sa transaction.
+    #	params [self]
+    #############################################################################################
     def excute_order(self):
 
         ORDER_ITEM            = '1'
